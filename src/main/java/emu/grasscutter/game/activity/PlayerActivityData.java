@@ -14,12 +14,13 @@ import emu.grasscutter.utils.JsonUtils;
 import java.util.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import emu.grasscutter.utils.objects.DatabaseObject;
 
 @Entity("activities")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder(builderMethodName = "of")
-public class PlayerActivityData {
+public class PlayerActivityData implements DatabaseObject<PlayerActivityData> {
     @Id String id;
     int uid;
     int activityId;
@@ -34,8 +35,24 @@ public class PlayerActivityData {
         return DatabaseHelper.getPlayerActivityData(player.getUid(), activityId);
     }
 
+    /**
+     * Saves this object to the database.
+     * As of Grasscutter 1.7.1, this is by default a {@link DatabaseObject#deferSave()} call.
+     */
     public void save() {
-        DatabaseHelper.savePlayerActivityData(this);
+        this.deferSave();
+    }
+    /**
+     * Saves this object to the database.
+     *
+     * @param immediate If true, this will be a {@link DatabaseObject#save()} call instead of a {@link DatabaseObject#deferSave()} call.
+     */
+    public void save(boolean immediate) {
+        if (immediate) {
+            DatabaseObject.super.save();
+        } else {
+            this.save();
+        }
     }
 
     public synchronized void addWatcherProgress(int watcherId) {

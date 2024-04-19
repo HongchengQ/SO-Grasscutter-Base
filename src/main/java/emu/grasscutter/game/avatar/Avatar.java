@@ -15,7 +15,8 @@ import emu.grasscutter.data.excels.avatar.AvatarSkillDepotData.InherentProudSkil
 import emu.grasscutter.data.excels.reliquary.*;
 import emu.grasscutter.data.excels.trial.TrialAvatarTemplateData;
 import emu.grasscutter.data.excels.weapon.*;
-import emu.grasscutter.database.DatabaseHelper;
+//import emu.grasscutter.database.DatabaseHelper;
+import emu.grasscutter.utils.objects.DatabaseObject;
 import emu.grasscutter.game.entity.*;
 import emu.grasscutter.game.inventory.*;
 import emu.grasscutter.game.player.Player;
@@ -39,7 +40,7 @@ import lombok.*;
 import org.bson.types.ObjectId;
 
 @Entity(value = "avatars", useDiscriminator = false)
-public class Avatar {
+public class Avatar implements DatabaseObject<Avatar> {
     @Transient @Getter private final Int2ObjectMap<GameItem> equips;
     @Transient @Getter private final Int2FloatOpenHashMap fightProperties;
     @Transient @Getter private final Int2FloatOpenHashMap fightPropOverrides;
@@ -989,8 +990,25 @@ public class Avatar {
         return entity != null ? entity.getId() : 0;
     }
 
+    /**
+     * Saves this object to the database.
+     * As of Grasscutter 1.7.1, this is by default a {@link DatabaseObject#deferSave()} call.
+     */
     public void save() {
-        DatabaseHelper.saveAvatar(this);
+        this.deferSave();
+    }
+    
+    /**
+     * Saves this object to the database.
+     *
+     * @param immediate If true, this will be a {@link DatabaseObject#save()} call instead of a {@link DatabaseObject#deferSave()} call.
+     */
+    public void save(boolean immediate) {
+        if (immediate) {
+            DatabaseObject.super.save();
+        } else {
+            this.save();
+        }
     }
 
     public AvatarInfo toProto() {

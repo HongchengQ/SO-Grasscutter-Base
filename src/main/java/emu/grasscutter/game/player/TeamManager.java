@@ -26,6 +26,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import java.util.*;
 import java.util.stream.Stream;
 import lombok.*;
+import emu.grasscutter.database.Database;
 
 @Entity
 public final class TeamManager extends BasePlayerDataManager {
@@ -990,11 +991,15 @@ public final class TeamManager extends BasePlayerDataManager {
         return respawnPoint.get().getPointData().getTranPos();
     }
 
+
+    /**
+    * Performs a bulk save operation on all avatars.
+    */
     public void saveAvatars() {
         // Save all avatars from active team
-        for (EntityAvatar entity : this.getActiveTeam()) {
-            entity.getAvatar().save();
-        }
+        Database.saveAll(this.getActiveTeam().stream()
+                .map(EntityAvatar::getAvatar)
+                .toList());
     }
 
     public void onPlayerLogin() { // Hack for now to fix resonances on login
