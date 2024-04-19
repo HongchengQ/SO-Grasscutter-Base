@@ -134,10 +134,10 @@ public final class GameServer extends KcpServer implements Iterable<Player> {
         var channelConfig = new ChannelConfig();
         channelConfig.nodelay(true, GAME_INFO.kcpInterval, 2, true);
         channelConfig.setMtu(1400);
-        channelConfig.setSndwnd(256);
-        channelConfig.setRcvwnd(256);
-        channelConfig.setTimeoutMillis(30 * 1000); // 30s
-        channelConfig.setUseConvChannel(true);
+        channelConfig.setSndwnd(256);//增加这个数值可能需要服务器更多带宽
+        channelConfig.setRcvwnd(256);//增加这个数值可能需要服务器更多带宽
+        channelConfig.setTimeoutMillis(90 * 1000); // 90s 超时时间
+        channelConfig.setUseConvChannel(true);// 不要关闭它 否则你将无法连接到gameserver
         channelConfig.setAckNoDelay(false);
 
         this.init(GameSessionManager.getListener(), channelConfig, address);
