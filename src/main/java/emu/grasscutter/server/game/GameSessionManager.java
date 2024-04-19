@@ -26,7 +26,8 @@ public class GameSessionManager {
                             ukcp.close();
                             return;
                         }
-                        if (times++ > 5) {
+                        if (times++ > 7) {
+
                             Grasscutter.getLogger().error("Service is not available!");
                             ukcp.close();
                             return;
