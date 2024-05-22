@@ -1,35 +1,58 @@
 package emu.grasscutter;
 
-import static emu.grasscutter.config.Configuration.SERVER;
-import static emu.grasscutter.utils.lang.Language.translate;
-
-import ch.qos.logback.classic.*;
-import emu.grasscutter.auth.*;
-import emu.grasscutter.command.*;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import emu.grasscutter.auth.AuthenticationSystem;
+import emu.grasscutter.auth.DefaultAuthentication;
+import emu.grasscutter.command.CommandMap;
+import emu.grasscutter.command.DefaultPermissionHandler;
+import emu.grasscutter.command.PermissionHandler;
 import emu.grasscutter.config.ConfigContainer;
 import emu.grasscutter.data.ResourceLoader;
-import emu.grasscutter.database.*;
+import emu.grasscutter.database.Database;
+import emu.grasscutter.database.DatabaseHelper;
+import emu.grasscutter.database.DatabaseManager;
 import emu.grasscutter.plugin.PluginManager;
 import emu.grasscutter.plugin.api.ServerHelper;
 import emu.grasscutter.server.dispatch.DispatchServer;
 import emu.grasscutter.server.game.GameServer;
 import emu.grasscutter.server.http.HttpServer;
-import emu.grasscutter.server.http.dispatch.*;
-import emu.grasscutter.server.http.documentation.*;
-import emu.grasscutter.server.http.handlers.*;
+import emu.grasscutter.server.http.dispatch.AuthenticationHandler;
+import emu.grasscutter.server.http.dispatch.RegionHandler;
+import emu.grasscutter.server.http.documentation.DocumentationServerHandler;
+import emu.grasscutter.server.http.documentation.HandbookHandler;
+import emu.grasscutter.server.http.handlers.AnnouncementsHandler;
+import emu.grasscutter.server.http.handlers.GachaHandler;
+import emu.grasscutter.server.http.handlers.GenericHandler;
+import emu.grasscutter.server.http.handlers.LogHandler;
 import emu.grasscutter.tools.Tools;
-import emu.grasscutter.utils.*;
+import emu.grasscutter.utils.Crypto;
+import emu.grasscutter.utils.JsonUtils;
+import emu.grasscutter.utils.StartupArguments;
+import emu.grasscutter.utils.Utils;
 import emu.grasscutter.utils.lang.Language;
 import io.netty.util.concurrent.FastThreadLocalThread;
-import java.io.*;
-import java.util.Calendar;
-import java.util.concurrent.*;
-import javax.annotation.Nullable;
-import lombok.*;
-import org.jline.reader.*;
-import org.jline.terminal.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.jline.reader.EndOfFileException;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.UserInterruptException;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nullable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.*;
+
+import static emu.grasscutter.config.Configuration.SERVER;
+import static emu.grasscutter.utils.lang.Language.translate;
 
 public final class Grasscutter {
     public static final File configFile = new File("./config.json");
@@ -177,12 +200,34 @@ public final class Grasscutter {
             System.exit(1);
         }
 
+        // 设置内存日志输出目录
+        String logDirectoryPath = "logs/MemoryUsage";
+        File logDirectory = new File(logDirectoryPath);
+        if (!logDirectory.exists()) {
+            logDirectory.mkdir();
+        }
+
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        // 每5分钟执行一次 getMemoryUsage 方法
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            try {
+                long memoryUsage = getMemoryUsage();
+                writeMemoryUsageToLog(memoryUsage, logDirectoryPath);
+            } catch (IOException e) {
+                Grasscutter.getLogger().error("Error writing memory usage to log", e);
+            }
+        }, 0, 5, TimeUnit.MINUTES);
+
+        // 确保在应用程序关闭时停止定时任务服务
+        Runtime.getRuntime().addShutdownHook(new Thread(scheduledExecutorService::shutdownNow));
+
         // Enable all plugins.
         pluginManager.enablePlugins();
 
         // Hook into shutdown event.
         Runtime.getRuntime().addShutdownHook(new Thread(Grasscutter::onShutdown));
-        
+
         // Start database heartbeat.
         Database.startSaveThread();
 
@@ -267,7 +312,22 @@ public final class Grasscutter {
      */
     public static long getMemoryUsage() {
         Runtime runtime = Runtime.getRuntime();
-        return (runtime.totalMemory() - runtime.freeMemory()) / 1_048_576L;
+        long memoryUsage = (runtime.totalMemory() - runtime.freeMemory()) / 1_048_576L;
+        Grasscutter.getLogger().debug("目前程序内存占用为: " + memoryUsage);
+        return memoryUsage;
+    }
+
+    private static void writeMemoryUsageToLog(long getMemoryUsage, String logDirectoryPath) throws IOException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatterLog = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss a");
+        String fileName = "memory_usage_" + formatter.format(new Date()) + ".log";
+
+        File outputFile = new File(logDirectoryPath, fileName);
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(
+            new FileOutputStream(outputFile, true), StandardCharsets.UTF_8))) { // 使用UTF-8编码
+            writer.println("[ " + formatterLog.format(new Date()) + " ]"); // 使用新格式的时间
+            writer.println("内存使用量(MB): " + getMemoryUsage + "\n");
+        }
     }
 
     /**
