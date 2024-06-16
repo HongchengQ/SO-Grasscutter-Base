@@ -4,6 +4,7 @@ import emu.grasscutter.*;
 import emu.grasscutter.command.*;
 import emu.grasscutter.game.player.Player;
 import emu.grasscutter.tools.Tools;
+import emu.grasscutter.Grasscutter;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public final class InfoCommand implements CommandHandler {
         var questingEnabled = gameOptions.gameOptions.questing.enabled;
         var scriptsEnabled = gameOptions.enableScriptInBigWorld;
         var fastRequire = config.server.fastRequire;
+        var getMemoryUsage = Grasscutter.getMemoryUsage();
 
         CommandHandler.sendMessage(sender, """
                 Created by Meledy
@@ -53,11 +55,12 @@ public final class InfoCommand implements CommandHandler {
             Using Fast Require: %s
             Operating System: %s
             Resource Information: %s
+            Memory usage 内存占用: %s MB
 
             discord.gg/T5vZU6UyeG"""
                     .formatted(
                             build, playerCount, questingEnabled, scriptsEnabled, fastRequire,
-                            System.getProperty("os.name"), resourceInfo.toString()
+                            System.getProperty("os.name"), resourceInfo.toString(), getMemoryUsage
                     )
             );
         } else {

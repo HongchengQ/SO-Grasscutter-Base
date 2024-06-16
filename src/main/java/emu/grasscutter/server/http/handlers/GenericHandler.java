@@ -14,6 +14,7 @@ public final class GenericHandler implements Router {
         int playerCount = Grasscutter.getGameServer().getPlayers().size();
         int maxPlayer = ACCOUNT.maxPlayer;
         String version = GameConstants.VERSION;
+        long getMemoryUsage = Grasscutter.getMemoryUsage();
 
         ctx.result(
                 "{\"retcode\":0,\"status\":{\"playerCount\":"
@@ -22,6 +23,8 @@ public final class GenericHandler implements Router {
                         + maxPlayer
                         + ",\"version\":\""
                         + version
+                        + ",\"Memory usage\":\""
+                        + getMemoryUsage + " MB"
                         + "\"}}");
     }
 
