@@ -6,10 +6,13 @@ import com.google.gson.*;
 import com.google.protobuf.ByteString;
 import emu.grasscutter.*;
 import emu.grasscutter.Grasscutter.ServerRunMode;
+import emu.grasscutter.Hotfix.Hotfix;
+import emu.grasscutter.Hotfix.HotfixFactory;
 import emu.grasscutter.net.proto.QueryCurrRegionHttpRspOuterClass.QueryCurrRegionHttpRsp;
 import emu.grasscutter.net.proto.QueryRegionListHttpRspOuterClass.QueryRegionListHttpRsp;
 import emu.grasscutter.net.proto.RegionInfoOuterClass.RegionInfo;
 import emu.grasscutter.net.proto.RegionSimpleInfoOuterClass.RegionSimpleInfo;
+import emu.grasscutter.net.proto.ResVersionConfigOuterClass;
 import emu.grasscutter.net.proto.RetcodeOuterClass.Retcode;
 import emu.grasscutter.net.proto.StopServerInfoOuterClass.StopServerInfo;
 import emu.grasscutter.server.event.dispatch.*;
@@ -242,6 +245,7 @@ public final class RegionHandler implements Router {
         var versionMajor = Integer.parseInt(versionCode[0]);
         var versionMinor = Integer.parseInt(versionCode[1]);
         var versionFix = Integer.parseInt(versionCode[2]);
+        var platformCodeName = versionName.substring(0, 8);
 
         if (versionMajor >= 3
                 || (versionMajor == 2 && versionMinor == 7 && versionFix >= 50)
@@ -289,6 +293,35 @@ public final class RegionHandler implements Router {
                     return;
                 }
 
+                Hotfix hotfix = HotfixFactory.getHotfix(platformCodeName);
+                RegionInfo RegionInfo_hotfix = RegionInfo.newBuilder()
+                    .setGateserverIp(lr(GAME_INFO.accessAddress, GAME_INFO.bindAddress))
+                    .setGateserverPort(lr(GAME_INFO.accessPort, GAME_INFO.bindPort))
+                    .setResourceUrl(hotfix.getResourceUrl())
+                    .setDataUrl(hotfix.getDataUrl())
+                    .setResourceUrlBak(hotfix.getResourceUrlBak())
+                    .setDataUrlBak(hotfix.getDataUrlBak())
+                    .setClientDataVersion(hotfix.getClientDataVersion())
+                    .setClientSilenceDataVersion(hotfix.getClientSilenceDataVersion())
+                    .setClientDataMd5(hotfix.getClientDataMd5())
+                    .setClientSilenceDataMd5(hotfix.getClientSilenceDataMd5())
+                    .setClientVersionSuffix(hotfix.getClientVersionSuffix())
+                    .setClientSilenceVersionSuffix(hotfix.getClientSilenceVersionSuffix())
+                    .setResVersionConfig(ResVersionConfigOuterClass.ResVersionConfig.newBuilder()
+                        .setRelogin(hotfix.getResVersionConfig().relogin)
+                        .setMd5(hotfix.getResVersionConfig().md5)
+                        .setVersion(hotfix.getResVersionConfig().version)
+                        .setReleaseTotalSize(hotfix.getResVersionConfig().releaseTotalSize)
+                        .setVersionSuffix(hotfix.getResVersionConfig().versionSuffix)
+                        .setBranch(hotfix.getResVersionConfig().branch)
+                        .build())
+                    .build();
+
+                QueryCurrRegionHttpRsp rspRegionInfo = QueryCurrRegionHttpRsp.newBuilder()
+                    .setRegionInfo(RegionInfo_hotfix) //热更新
+                    .setClientSecretKey(ByteString.copyFrom(Crypto.DISPATCH_SEED))
+                    .build();
+
                 if (ctx.queryParam("dispatchSeed") == null) {
                     // More love for UA Patch players
                     var rsp = new QueryCurRegionRspJson();
@@ -300,9 +333,8 @@ public final class RegionHandler implements Router {
                     return;
                 }
 
-                var regionInfo = Utils.base64Decode(event.getRegionInfo());
-
-                ctx.json(Crypto.encryptAndSignRegionData(regionInfo, key_id));
+                ctx.json(Crypto.encryptAndSignRegionData(rspRegionInfo.toByteArray(), key_id));
+                Grasscutter.getLogger().debug("HotfixDataInfo\n{}", rspRegionInfo);
             } catch (Exception e) {
                 Grasscutter.getLogger().error("An error occurred while handling query_cur_region.", e);
             }
