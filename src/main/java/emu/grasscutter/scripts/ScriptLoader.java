@@ -9,6 +9,8 @@ import emu.grasscutter.scripts.constants.*;
 import emu.grasscutter.scripts.data.SceneMeta;
 import emu.grasscutter.scripts.serializer.*;
 import emu.grasscutter.utils.FileUtils;
+
+import java.io.File;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.nio.file.*;
@@ -17,17 +19,21 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.script.*;
 import lombok.Getter;
-import org.luaj.vm2.*;
-import org.luaj.vm2.lib.OneArgFunction;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.luaj.vm2.script.*;
+import org.terasology.jnlua.JavaFunction;
+import org.terasology.jnlua.LuaState;
+import org.terasology.jnlua.LuaType;
+import org.terasology.jnlua.script.CompiledLuaScript;
+import org.terasology.jnlua.script.LuaBindings;
+import org.terasology.jnlua.script.LuaScriptEngine;
+import java.io.ByteArrayOutputStream;
+import java.util.stream.Collectors;
 
 public class ScriptLoader {
     private static ScriptEngineManager sm;
     @Getter private static LuaScriptEngine engine;
     @Getter private static Serializer serializer;
     @Getter private static ScriptLib scriptLib;
-    @Getter private static LuaValue scriptLibLua;
+    //@Getter private static LuaType scriptLibLua;
     /** suggest GC to remove it if the memory is less */
     private static Map<String, SoftReference<String>> scriptSources = new ConcurrentHashMap<>();
 
@@ -46,42 +52,41 @@ public class ScriptLoader {
         }
 
         // Create script engine
+        ScriptEngineManager manager = new ScriptEngineManager();
+        // Create script engine
         ScriptLoader.sm = new ScriptEngineManager();
-        var engine = ScriptLoader.engine = (LuaScriptEngine) sm.getEngineByName("luaj");
+        engine =(LuaScriptEngine) manager.getEngineByName("Lua");
+
         ScriptLoader.serializer = new LuaSerializer();
 
-        // Set the Lua context.
-        var ctx = new LuajContext(true, false);
-        ctx.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
-        engine.setContext(ctx);
+        // Set the Lua context.``````````````````````````
+        engine.put("require", new JavaFunction() {
+            @Override
+            public int invoke(LuaState luaState) {
+                return 0;
+            }
+        });
 
-        // Set the 'require' function handler.
-        ctx.globals.set("require", new RequireFunction());
-
-        addEnumByIntValue(ctx, EntityType.values(), "EntityType");
-        addEnumByIntValue(ctx, QuestState.values(), "QuestState");
-        addEnumByIntValue(ctx, ElementType.values(), "ElementType");
-
-        addEnumByOrdinal(ctx, GroupKillPolicy.values(), "GroupKillPolicy");
-        addEnumByOrdinal(ctx, SealBattleType.values(), "SealBattleType");
-        addEnumByOrdinal(ctx, FatherChallengeProperty.values(), "FatherChallengeProperty");
-        addEnumByOrdinal(ctx, ChallengeEventMarkType.values(), "ChallengeEventMarkType");
-        addEnumByOrdinal(ctx, VisionLevelType.values(), "VisionLevelType");
-
-        ctx.globals.set(
-                "EventType",
-                CoerceJavaToLua.coerce(
-                        new EventType())); // TODO - make static class to avoid instantiating a new class every
-        // scene
-        ctx.globals.set("GadgetState", CoerceJavaToLua.coerce(new ScriptGadgetState()));
-        ctx.globals.set("RegionShape", CoerceJavaToLua.coerce(new ScriptRegionShape()));
+        engine.put("print", new JavaFunction() {
+            @Override
+            public int invoke(LuaState luaState) {
+                Grasscutter.getLogger().debug("[LUA] print {} ",luaState.checkString(1));
+                return 1;
+            }
+        });
 
         scriptLib = new ScriptLib();
-        scriptLibLua = CoerceJavaToLua.coerce(scriptLib);
-        ctx.globals.set("ScriptLib", scriptLibLua);
+        ScriptBinding.coerce(engine, "ScriptLib", scriptLib);
+        ScriptBinding.coerce(engine, "QuestState", Arrays.stream(QuestState.values()).collect(Collectors.toMap(e -> e.name().toUpperCase(), QuestState::getValue)));
+        ScriptBinding.coerce(engine, "EventType", new EventType());
+        ScriptBinding.coerce(engine, "RegionShape", new ScriptRegionShape());
+        ScriptBinding.coerce(engine, "GadgetState", new ScriptGadgetState());
+        ScriptBinding.coerce(engine, "EntityType", Arrays.stream(EntityType.values()).collect(Collectors.toMap(e -> e.name().toUpperCase(), EntityType::getValue)));
+
+        //scriptLibLua = new ScriptLib();
     }
 
-    private static <T extends Enum<T>> void addEnumByOrdinal(
+/*    private static <T extends Enum<T>> void addEnumByOrdinal(
             LuajContext ctx, T[] enumArray, String name) {
         LuaTable table = new LuaTable();
         Arrays.stream(enumArray)
@@ -91,9 +96,9 @@ public class ScriptLoader {
                             table.set(e.name().toUpperCase(), e.ordinal());
                         });
         ctx.globals.set(name, table);
-    }
+    }*/
 
-    private static <T extends Enum<T> & IntValueEnum> void addEnumByIntValue(
+/*    private static <T extends Enum<T> & IntValueEnum> void addEnumByIntValue(
             LuajContext ctx, T[] enumArray, String name) {
         LuaTable table = new LuaTable();
         Arrays.stream(enumArray)
@@ -103,7 +108,7 @@ public class ScriptLoader {
                             table.set(e.name().toUpperCase(), e.getValue());
                         });
         ctx.globals.set(name, table);
-    }
+    }*/
 
     public static <T> Optional<T> tryGet(SoftReference<T> softReference) {
         try {
@@ -131,7 +136,7 @@ public class ScriptLoader {
         return result;
     }
 
-    static final class RequireFunction extends OneArgFunction {
+    /*static final class RequireFunction extends OneArgFunction {
         @Override
         public LuaValue call(LuaValue arg) {
             // Resolve the script path.
@@ -163,7 +168,7 @@ public class ScriptLoader {
             // TODO: What is the proper return value?
             return LuaValue.NONE;
         }
-    }
+    }*/
 
     /**
      * Loads the sources of a script.

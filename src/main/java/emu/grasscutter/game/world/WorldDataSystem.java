@@ -11,7 +11,6 @@ import emu.grasscutter.scripts.data.*;
 import emu.grasscutter.server.game.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import org.luaj.vm2.LuaError;
 
 public class WorldDataSystem extends BaseGameSystem {
     private final Map<String, ChestInteractHandler> chestInteractHandlerMap; // chestType-Handler
@@ -68,9 +67,9 @@ public class WorldDataSystem extends BaseGameSystem {
                 var group = SceneGroup.of(groupId).load(sceneId);
                 sceneInvestigationGroupMap.putIfAbsent(key, group);
                 return group;
-            } catch (LuaError luaError) {
+            } catch (Exception e) {
                 Grasscutter.getLogger()
-                        .error("failed to get investigationGroup {} in scene{}:", groupId, sceneId, luaError);
+                        .error("failed to get investigationGroup {} in scene{}:", groupId, sceneId);
             }
         }
         return sceneInvestigationGroupMap.get(key);

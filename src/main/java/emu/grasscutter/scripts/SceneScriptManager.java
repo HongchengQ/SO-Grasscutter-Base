@@ -31,8 +31,9 @@ import java.util.stream.Collectors;
 import javax.annotation.*;
 import kotlin.Pair;
 import lombok.val;
-import org.luaj.vm2.*;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import emu.grasscutter.game.player.Player;
+
+import javax.script.Invocable;
 
 public class SceneScriptManager {
     private final Scene scene;
@@ -890,7 +891,7 @@ public class SceneScriptManager {
                     .error("Condition Trigger " + params.type + " triggered exception", throwable);
         } finally {
             // make sure it is removed
-            ScriptLoader.getScriptLib().removeSceneScriptManager();
+            ScriptLoader.getScriptLib().removeSceneScriptManager(); //这里可能会出问题
         }
     }
 
@@ -930,8 +931,8 @@ public class SceneScriptManager {
                         params.param3,
                         params.source_eid,
                         params.target_eid);
-        LuaValue ret = this.callScriptFunc(trigger.getCondition(), trigger.currentGroup, params);
-        return ret.isboolean() && ret.checkboolean();
+        Object ret = this.callScriptFunc(trigger.getCondition(), trigger.currentGroup, params);
+        return ret instanceof Boolean && (Boolean)ret;
     }
 
     private void callTrigger(SceneTrigger trigger, ScriptArgs params) {
@@ -971,34 +972,33 @@ public class SceneScriptManager {
         // or the trigger should be preserved after a RefreshGroup call
         if (trigger.isPreserved()) {
             trigger.setPreserved(false);
-        } else if (ret.isboolean() && !ret.checkboolean()
-                || ret.isint() && ret.checkint() != 0
+        } else if (ret instanceof Boolean && !((Boolean)ret)
+                || ret instanceof Integer && ((int)ret) != 0
                 || trigger.getTrigger_count() > 0 && invocations >= trigger.getTrigger_count()) {
             deregisterTrigger(trigger);
         }
         ongoingTriggers.remove(trigger);
     }
 
-    private LuaValue callScriptFunc(String funcName, SceneGroup group, ScriptArgs params) {
-        LuaValue funcLua = null;
-        if (funcName != null && !funcName.isEmpty()) {
-            funcLua = (LuaValue) group.getBindings().get(funcName);
-        }
+    private Object callScriptFunc(String funcName, SceneGroup group, ScriptArgs params) {
+/*    Object funcLua = null;
+    if (funcName != null && !funcName.isEmpty()) {
+        funcLua = group.getBindings().get(funcName);
+    }*/
 
-        LuaValue ret = LuaValue.TRUE;
+        Object ret = Boolean.TRUE;
 
-        if (funcLua != null) {
-            LuaValue args = LuaValue.NIL;
-
-            if (params != null) {
-                args = CoerceJavaToLua.coerce(params);
+        if (!funcName.isEmpty()) {
+            try {
+                ret = ((Invocable) ScriptLoader.getEngine()).invokeFunction(funcName, new ScriptLibContext(this, group, this.getScene().getPlayers().get(0).getUid()), params);
+            } catch (Exception e) {
+                Grasscutter.getLogger().error("Unable to execute script function: " + funcName + ". Detailed exception: " + e);
             }
-
-            ret = safetyCall(funcName, funcLua, args, group);
         }
         return ret;
     }
 
+/* Todo luaj -> jnlua
     public LuaValue safetyCall(String name, LuaValue func, LuaValue args, SceneGroup group) {
         try {
             return func.call(ScriptLoader.getScriptLibLua(), args);
@@ -1008,6 +1008,7 @@ public class SceneScriptManager {
             return LuaValue.valueOf(-1);
         }
     }
+*/
 
     public ScriptMonsterTideService getScriptMonsterTideService() {
         return scriptMonsterTideService;

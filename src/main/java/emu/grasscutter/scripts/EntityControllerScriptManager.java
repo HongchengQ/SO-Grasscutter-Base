@@ -36,7 +36,7 @@ public class EntityControllerScriptManager {
                             Grasscutter.getLogger().error("Error while loading gadget controller: {}.", fileName);
                         }
                     });
-            Grasscutter.getLogger().debug("Loaded {} gadget controllers", gadgetController.size());
+            Grasscutter.getLogger().debug("Loaded gadget controllers 报错");
         } catch (IOException e) {
             Grasscutter.getLogger().error("Error loading gadget controller Lua scripts.");
         }

@@ -4,9 +4,14 @@ import emu.grasscutter.*;
 import emu.grasscutter.game.entity.GameEntity;
 import emu.grasscutter.game.props.ElementType;
 import emu.grasscutter.scripts.*;
+import org.terasology.jnlua.LuaState;
+import org.terasology.jnlua.LuaType;
+import org.terasology.jnlua.LuaValueProxy;
+
 import java.util.Set;
 import javax.script.*;
-import org.luaj.vm2.*;
+
+
 
 public class EntityController {
     private static final Set<String> SERVER_CALLED = Set.of("OnBeHurt", "OnDie", "OnTimer");
@@ -23,18 +28,18 @@ public class EntityController {
         callControllerScriptFunc(
                 entity,
                 "OnBeHurt",
-                LuaValue.valueOf(elementType.getValue()),
-                LuaValue.valueOf(0),
-                LuaValue.valueOf(isHost));
+            LuaType.valueOf(String.valueOf(elementType.getValue())),
+            LuaType.valueOf(String.valueOf(0)),
+            LuaType.valueOf(String.valueOf(isHost)));
     }
 
     public void onDie(GameEntity entity, ElementType elementType) {
         callControllerScriptFunc(
-                entity, "OnDie", LuaValue.valueOf(elementType.getValue()), LuaValue.valueOf(0));
+                entity, "OnDie", LuaType.valueOf(String.valueOf(elementType.getValue())), LuaType.valueOf(String.valueOf(0)));
     }
 
     public void onTimer(GameEntity entity, int now) {
-        callControllerScriptFunc(entity, "OnTimer", LuaValue.valueOf(now));
+        callControllerScriptFunc(entity, "OnTimer", LuaType.valueOf(String.valueOf(now)));
     }
 
     public int onClientExecuteRequest(GameEntity entity, int param1, int param2, int param3) {
@@ -46,54 +51,50 @@ public class EntityController {
                             param1,
                             entity.getPosition().toString());
         }
-        LuaValue value =
+        LuaType value =
                 callControllerScriptFunc(
                         entity,
                         "OnClientExecuteReq",
-                        LuaValue.valueOf(param1),
-                        LuaValue.valueOf(param2),
-                        LuaValue.valueOf(param3));
-        if (value.isint() && value.toint() == 1) return 1;
+                    LuaType.valueOf(String.valueOf(param1)),
+                    LuaType.valueOf(String.valueOf(param2)),
+                    LuaType.valueOf(String.valueOf(param3)));
+        if (value != null) return 1;
 
         return 0;
     }
 
     // TODO actual execution should probably be handle by EntityControllerScriptManager
-    private LuaValue callControllerScriptFunc(GameEntity entity, String funcName, LuaValue arg1) {
-        return callControllerScriptFunc(entity, funcName, arg1, LuaValue.NIL, LuaValue.NIL);
+    private LuaType callControllerScriptFunc(GameEntity entity, String funcName, LuaType arg1) {
+        return callControllerScriptFunc(entity, funcName, arg1, LuaType.NIL, LuaType.NIL);
     }
 
-    private LuaValue callControllerScriptFunc(
-            GameEntity entity, String funcName, LuaValue arg1, LuaValue arg2) {
-        return callControllerScriptFunc(entity, funcName, arg1, arg2, LuaValue.NIL);
+    private LuaType callControllerScriptFunc(
+            GameEntity entity, String funcName, LuaType arg1, LuaType arg2) {
+        return callControllerScriptFunc(entity, funcName, arg1, arg2, LuaType.NIL);
     }
 
-    private LuaValue callControllerScriptFunc(
-            GameEntity entity, String funcName, LuaValue arg1, LuaValue arg2, LuaValue arg3) {
-        LuaValue funcLua = null;
+    private LuaType callControllerScriptFunc(
+            GameEntity entity, String funcName, LuaType arg1, LuaType arg2, LuaType arg3) {
+        LuaType funcLua = null;
         if (funcName != null && !funcName.isEmpty()) {
-            funcLua = (LuaValue) entityControllerBindings.get(funcName);
+            funcLua = (LuaType) entityControllerBindings.get(funcName);
         }
 
-        LuaValue ret = LuaValue.ONE;
+        LuaType ret = LuaType.valueOf(String.valueOf(1));
 
         if (funcLua != null) {
             try {
                 ScriptLoader.getScriptLib().setCurrentEntity(entity);
-                ret =
-                        funcLua
-                                .invoke(new LuaValue[] {ScriptLoader.getScriptLibLua(), arg1, arg2, arg3})
-                                .arg1();
-            } catch (LuaError error) {
+                ret = null;
+            } catch (Exception e) {
                 ScriptLib.logger.error(
                         "[LUA] call function failed in gadget {} with {} {} {},{}",
                         entity.getEntityTypeId(),
                         funcName,
                         arg1,
                         arg2,
-                        arg3,
-                        error);
-                ret = LuaValue.valueOf(-1);
+                        arg3);
+                ret = LuaType.valueOf(String.valueOf(-1));
             }
         } else if (funcName != null && !SERVER_CALLED.contains(funcName)) {
             ScriptLib.logger.error(
