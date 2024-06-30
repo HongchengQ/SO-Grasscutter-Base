@@ -1,5 +1,6 @@
 package emu.grasscutter.server.game;
 
+import static emu.grasscutter.Grasscutter.getMemoryUsage;
 import static emu.grasscutter.config.Configuration.*;
 import static emu.grasscutter.utils.lang.Language.translate;
 
@@ -157,6 +158,7 @@ public class GameSession implements GameSessionManager.KcpChannel {
     public void onConnected(GameSessionManager.KcpTunnel tunnel) {
         this.tunnel = tunnel;
         Grasscutter.getLogger().info(translate("messages.game.connect", this.getAddress().toString()));
+        getMemoryUsage();   // 当客户端连接到服务器的gameserver时在控制台显示程序已用内存与在线人数
     }
 
     @Override
