@@ -310,23 +310,27 @@ public final class Grasscutter {
     /**
      * Returns the memory usage of the server, in megabytes.
      */
+    public static int getPlayerCount() {
+        return Grasscutter.getGameServer().getPlayers().size(); // 计算在线玩家
+    }
+
     public static long getMemoryUsage() {
         Runtime runtime = Runtime.getRuntime();
-        long memoryUsage = (runtime.totalMemory() - runtime.freeMemory()) / 1_048_576L;
-        Grasscutter.getLogger().debug("目前程序内存占用为: " + memoryUsage);
-        return memoryUsage;
+        long memoryUsage = (runtime.totalMemory() - runtime.freeMemory()) / 1_048_576L; // 计算程序已用内存
+        Grasscutter.getLogger().info("目前程序内存占用为: " + memoryUsage + "  " + "在线人数: " + getPlayerCount());  // 这里的日志信息每五分钟在控制台显示一次
+        return memoryUsage; // 这里返回的值用作 info指令 + status/server页面显示
     }
 
     private static void writeMemoryUsageToLog(long getMemoryUsage, String logDirectoryPath) throws IOException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatterLog = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss a");
-        String fileName = "memory_usage_" + formatter.format(new Date()) + ".log";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");    // 文件名使用的时间格式
+        SimpleDateFormat formatterLog = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss a"); // 文件内部使用的时间格式
+        String fileName = "memory_usage_" + formatter.format(new Date()) + ".log";  // 使用文件名时间格式
 
         File outputFile = new File(logDirectoryPath, fileName);
-        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(   // 将内存和人数信息写入到log
             new FileOutputStream(outputFile, true), StandardCharsets.UTF_8))) { // 使用UTF-8编码
-            writer.println("[ " + formatterLog.format(new Date()) + " ]"); // 使用新格式的时间
-            writer.println("内存使用量(MB): " + getMemoryUsage + "\n");
+            writer.println("[ " + formatterLog.format(new Date()) + " ]"); // 使用文件内部时间格式
+            writer.println("内存使用量(MB): " + getMemoryUsage + "  " + "在线人数: " + getPlayerCount() + "\n");   // 日志内容
         }
     }
 
