@@ -573,18 +573,20 @@ public class ScriptLib {
     // TODO: CreateGroupTrigger
     // TODO: CreateGroupVariable
 
-/*    public int CreateMonster(LuaTable table) {
-        logger.debug("[LUA] Call CreateMonster with {}", printTable(table));
-        var configId = table.get("config_id").toint();
-        var delayTime = table.get("delay_time").toint();
+    public int CreateMonster(Object table_){
+        var table = (AbstractTableMap)table_;
+        var configId = ScriptUtils.getInt(table.get("config_id"));
+        var delayTime = ScriptUtils.getInt(table.get("delay_time"));
+        logger.info("[LUA] Call CreateMonster with {} config_id{}; delay_time{}", printTable(table), configId, delayTime);
 
         if (getCurrentGroup().isEmpty()) {
             return 1;
         }
 
         getSceneScriptManager().spawnMonstersByConfigId(getCurrentGroup().get(), configId, delayTime);
+        // getSceneScriptManager().spawnMonstersByConfigId(getCurrentGroup().get(), configId, delayTime);
         return 0;
-    }*/
+    }
 
     // TODO: CreateMonsterByConfigIdByPos
 
@@ -991,18 +993,22 @@ public class ScriptLib {
         return entity.getConfigId();
     }*/
 
-/*
-    public int GetRegionEntityCount(LuaTable table) {
-        logger.debug("[LUA] Call GetRegionEntityCount with {}", printTable(table));
-        var regionId = table.get("region_eid").toint();
-        var entityType = table.get("entity_type").toint();
-        var region = this.getSceneScriptManager().getRegionById(regionId);
+    public int GetRegionEntityCount(ScriptLibContext context, Object table_) {
+        var table = (AbstractTableMap)table_;
+        int regionId = ScriptUtils.getInt(table.get("region_eid"));
+        int entityType = ScriptUtils.getInt(table.get("entity_type"));
+        logger.debug("[LUA] Call GetRegionEntityCount with {}",
+            printTable(table));
+
+        var region = context.getSceneScriptManager().getRegionById(regionId);
+
         if (region == null) {
             return 0;
         }
+
         return (int) region.getEntities().stream().filter(e -> e >> 24 == entityType).count();
     }
-*/
+
 
     // TODO: GetRogueCellState
     // TODO: GetRogueDiaryDungeonStage
@@ -1608,36 +1614,9 @@ public class ScriptLib {
         return 0;
     }
 
-    public int SetWorktopOptions(ScriptLibContext context, Object table) {
-/*        logger.debug("[LUA] Call SetWorktopOptions with {}", printTable(table));
-        var callParams = this.callParams.getIfExists();
-        var group = this.currentGroup.getIfExists();
-        if (callParams == null || group == null) {
-            return 1;
-        }
-        var configId = callParams.param1;
-        var entity = getSceneScriptManager().getScene().getEntityByConfigId(configId, getCurrentGroup().get().id);
-
-        var worktopOptions = new int[table.length()];
-        for (int i = 1; i <= table.length(); i++) {
-            worktopOptions[i - 1] = table.get(i).optint(-1);
-        }
-        if (!(entity instanceof EntityGadget gadget) || worktopOptions.length == 0) {
-            return 2;
-        }
-
-        if (!(gadget.getContent() instanceof GadgetWorktop worktop)) {
-            return 3;
-        }
-
-        worktop.addWorktopOptions(worktopOptions);
-        var scene = this.getSceneScriptManager().getScene();
-        // Done in order to synchronize with addEntities in Scene.class.
-        synchronized (this.getSceneScriptManager().getScene()) {
-            scene.broadcastPacket(new PacketWorktopOptionNotify(gadget));
-        }*/
+    public int SetWorktopOptions(ScriptLibContext context, Object table){
+        logger.info("[LUA] Call SetWorktopOptions with {}", printTable(table));
         // TODO
-        logger.info("lualib:SetWorktopOptions未执行实际内容 原因:源码内容被注释");
         return 0;
     }
 

@@ -6,7 +6,6 @@ import emu.grasscutter.game.props.ElementType;
 import emu.grasscutter.scripts.*;
 import org.terasology.jnlua.LuaState;
 import org.terasology.jnlua.LuaType;
-import org.terasology.jnlua.LuaValueProxy;
 
 import java.util.Set;
 import javax.script.*;
@@ -39,7 +38,7 @@ public class EntityController {
     }
 
     public void onTimer(GameEntity entity, int now) {
-        callControllerScriptFunc(entity, "OnTimer", LuaType.valueOf(String.valueOf(now)));
+        callControllerScriptFunc(entity, "OnTimer", LuaType.valueOf(String.valueOf(now)));  // 标记 这里导致报错:游戏更新错误
     }
 
     public int onClientExecuteRequest(GameEntity entity, int param1, int param2, int param3) {

@@ -82,6 +82,7 @@ public class ScriptLoader {
         ScriptBinding.coerce(engine, "RegionShape", new ScriptRegionShape());
         ScriptBinding.coerce(engine, "GadgetState", new ScriptGadgetState());
         ScriptBinding.coerce(engine, "EntityType", Arrays.stream(EntityType.values()).collect(Collectors.toMap(e -> e.name().toUpperCase(), EntityType::getValue)));
+        ScriptBinding.coerce(engine, "VisionLevelType", VisionLevelType.class); // 枚举类型 lua文件中的视距
 
         //scriptLibLua = new ScriptLib();
     }
