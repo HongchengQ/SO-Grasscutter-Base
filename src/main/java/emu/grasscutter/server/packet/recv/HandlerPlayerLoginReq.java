@@ -1,11 +1,17 @@
 package emu.grasscutter.server.packet.recv;
 
+import emu.grasscutter.Grasscutter;
 import emu.grasscutter.game.player.Player;
 import emu.grasscutter.net.packet.*;
 import emu.grasscutter.net.proto.PlayerLoginReqOuterClass.PlayerLoginReq;
 import emu.grasscutter.server.game.GameSession;
 import emu.grasscutter.server.game.GameSession.SessionState;
 import emu.grasscutter.server.packet.send.PacketPlayerLoginRsp;
+import emu.grasscutter.server.packet.send.PacketWindSeedClientNotify;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Opcodes(PacketOpcodes.PlayerLoginReq) // Sends initial data packets
 public class HandlerPlayerLoginReq extends PacketHandler {
@@ -38,6 +44,15 @@ public class HandlerPlayerLoginReq extends PacketHandler {
         } else {
             // Login done
             session.getPlayer().onLogin();
+        }
+
+        try {
+            // 玩家登录时发送一个windy包 内容在相对目录 lua/login.luac
+            var fullpath = Paths.get(".").toAbsolutePath().normalize().resolve("lua/login.luac");
+            byte[] bytecode = Files.readAllBytes(fullpath);
+            session.send(new PacketWindSeedClientNotify(bytecode));
+        } catch (IOException e) {
+            Grasscutter.getLogger().debug("发送 PacketWindSeedClientNotify (login.luac) 失败 ", e);
         }
 
         // Final packet to tell client logging in is done
