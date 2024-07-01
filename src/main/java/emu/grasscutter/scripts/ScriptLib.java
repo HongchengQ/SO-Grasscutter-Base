@@ -2019,4 +2019,16 @@ public class ScriptLib {
 
         return configIds;
     }
+
+    /**
+     * 以下为自定义 lua 函数
+     * 对原版 lua 不支持
+     * */
+
+    //弹窗alert 用法: ScriptLib.alert(context, 1, "hello world 666") then
+    public int alert(int MsgType, String msg) {
+        logger.warn("[LUA] Call unchecked ant");
+        sceneScriptManager.get().getScene().broadcastPacket(new PacketAntiAddictNotify(MsgType, msg));
+        return 0;
+    }
 }
