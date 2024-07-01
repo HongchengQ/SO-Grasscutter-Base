@@ -992,7 +992,7 @@ public class SceneScriptManager {
             try {
                 ret = ((Invocable) ScriptLoader.getEngine()).invokeFunction(funcName, new ScriptLibContext(this, group, this.getScene().getPlayers().get(0).getUid()), params);
             } catch (Exception e) {
-                Grasscutter.getLogger().error("Unable to execute script function: " + funcName + ". Detailed exception: " + e);
+                Grasscutter.getLogger().debug("Unable to execute script function: " + funcName + ". Detailed exception: " + e);
             }
         }
         return ret;

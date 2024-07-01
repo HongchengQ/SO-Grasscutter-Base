@@ -1615,7 +1615,7 @@ public class ScriptLib {
     }
 
     public int SetWorktopOptions(ScriptLibContext context, Object table){
-        logger.info("[LUA] Call SetWorktopOptions with {}", printTable(table));
+        logger.debug("[LUA] Call SetWorktopOptions with {}", printTable(table));
         // TODO
         return 0;
     }
