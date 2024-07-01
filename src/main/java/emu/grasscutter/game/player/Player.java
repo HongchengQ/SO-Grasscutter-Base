@@ -1529,7 +1529,7 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
             // Call quit event.
             new PlayerQuitEvent(this).call();
         } catch (Throwable e) {
-            Grasscutter.getLogger().warn("Player (UID {}) failed to save.", this.getUid(), e);
+            Grasscutter.getLogger().debug("Player (UID {}) failed to save.", this.getUid(), e);
         } finally {
             removeFromServer();
         }
