@@ -23,7 +23,7 @@ public class PacketOpenStateUpdateNotify extends BasePacket {
 
             // 将所有OpenState的状态改为1 也就是全部打开 与/unlockall效果相同
             proto.putOpenStateMap(id, 1);
-            proto.putOpenStateMap(48, 1);   // // 把地图大边界状态改为0
+            proto.putOpenStateMap(48, 0);   // // 把地图大边界状态改为0
 
             if ((id == 45) && !GAME_OPTIONS.resinOptions.resinUsage) {
                 proto.putOpenStateMap(45, 0);  // Remove resin from map
