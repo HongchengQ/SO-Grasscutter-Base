@@ -5,12 +5,12 @@ import emu.grasscutter.net.packet.PacketOpcodes;
 import emu.grasscutter.net.proto.AntiAddictNotifyOuterClass.AntiAddictNotify;
 
 public class PacketAntiAddictNotify extends BasePacket {
-    public PacketAntiAddictNotify(int MsgType, String msg) {
+    public PacketAntiAddictNotify(int MsgType, String Msg) {
         super(PacketOpcodes.AntiAddictNotify);
 
         AntiAddictNotify proto = AntiAddictNotify.newBuilder()
             .setMsgType(MsgType)
-            .setMsg(msg)
+            .setMsg(Msg)
             .build();
 
         this.setData(proto);

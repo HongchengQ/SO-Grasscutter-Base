@@ -2025,9 +2025,9 @@ public class ScriptLib {
      * 对原版 lua 不支持
      * */
 
-    //弹窗alert 用法: ScriptLib.alert(context, 1, "hello world 666") then
-    public int alert(int MsgType, String msg) {
-        sceneScriptManager.get().getScene().broadcastPacket(new PacketAntiAddictNotify(MsgType, msg));
+    //弹窗 Notice 用法: ScriptLib.alert(context, 1, "hello world 666") then
+    public int Notice(int MsgType, String Msg) {
+        sceneScriptManager.get().getScene().broadcastPacket(new PacketAntiAddictNotify(MsgType, Msg));
         return 0;
     }
 }

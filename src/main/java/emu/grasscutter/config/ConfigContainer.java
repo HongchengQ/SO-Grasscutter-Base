@@ -35,9 +35,10 @@ public class ConfigContainer {
      *              HTTP server should start immediately.
      * Version 13 - 'game.useUniquePacketKey' was added to control whether the
      *              encryption key used for packets is a constant or randomly generated.
+     * Version 14 - 添加热更新配置 添加弹窗信息配置
      */
     private static int version() {
-        return 13;
+        return 14;
     }
 
     /**
@@ -418,6 +419,7 @@ public class ConfigContainer {
     }
 
     public static class JoinOptions {
+        public static String noticeMessage = "Welcome to a Grasscutter server.";
         public int[] welcomeEmotes = {2007, 1002, 4010};
         public String welcomeMessage = "Welcome to a Grasscutter server.";
         public JoinOptions.Mail welcomeMail = new JoinOptions.Mail();
