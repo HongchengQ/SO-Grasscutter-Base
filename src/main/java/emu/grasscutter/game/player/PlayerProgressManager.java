@@ -1,6 +1,6 @@
 package emu.grasscutter.game.player;
 
-import static emu.grasscutter.config.Configuration.GAME_OPTIONS;
+import static emu.grasscutter.config.Configuration.GAME_INFO;
 import static emu.grasscutter.scripts.constants.EventType.EVENT_UNLOCK_TRANS_POINT;
 
 import emu.grasscutter.data.GameData;
@@ -13,8 +13,10 @@ import emu.grasscutter.net.proto.RetcodeOuterClass.Retcode;
 import emu.grasscutter.scripts.data.ScriptArgs;
 import emu.grasscutter.server.packet.send.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 // @Entity
 public final class PlayerProgressManager extends BasePlayerDataManager {
@@ -85,12 +87,19 @@ public final class PlayerProgressManager extends BasePlayerDataManager {
         // Add statue quests if necessary.
         this.addStatueQuestsOnLogin();
 
-        if (!GAME_OPTIONS.questing.enabled) {
-            // Auto-unlock the first statue and map area.
+        final List<Integer> sceneAreas = IntStream.range(1, 1000).boxed().toList();
+        if (GAME_INFO.loginUnlockMap) {
+            //解锁全图
+            this.player.getUnlockedSceneAreas(3).addAll(sceneAreas);
+            this.player.getUnlockedSceneAreas(4).addAll(sceneAreas);
+            this.player.getUnlockedSceneAreas(5).addAll(sceneAreas);
+            this.player.getUnlockedSceneAreas(6).addAll(sceneAreas);
+            this.player.getUnlockedSceneAreas(7).addAll(sceneAreas);
+            GameData.getScenePointsPerScene().forEach((sceneId, scenePoints) -> this.player.getUnlockedScenePoints(sceneId).addAll(scenePoints));
+        } else {
+            // 只解锁出生点锚点和星落湖神像
             this.player.getUnlockedScenePoints(3).add(7);
             this.player.getUnlockedSceneAreas(3).add(1);
-            // Allow the player to visit all areas.
-            this.setOpenState(47, 1, true);
         }
     }
 
