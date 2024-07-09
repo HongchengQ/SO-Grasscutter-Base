@@ -1380,6 +1380,8 @@ public class Player implements PlayerHook, FieldFetch {
     }
 
     public void onLogin() {
+        Grasscutter.getThreadPool().submit(this.getQuestManager()::onPlayerBorn);
+
         // Quest - Commented out because a problem is caused if you log out while this quest is active
         /*
         if (getQuestManager().getMainQuestById(351) == null) {
