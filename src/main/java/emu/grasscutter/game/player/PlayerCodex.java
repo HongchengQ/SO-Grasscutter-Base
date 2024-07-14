@@ -25,7 +25,7 @@ public class PlayerCodex {
 
     public PlayerCodex() {
         this.unlockedWeapon = new HashSet<>();
-        this.unlockedAnimal = new HashMap<>();
+        this.unlockedAnimal = new WeakHashMap<>();
         this.unlockedMaterial = new HashSet<>();
         this.unlockedBook = new HashSet<>();
         this.unlockedTip = new HashSet<>();

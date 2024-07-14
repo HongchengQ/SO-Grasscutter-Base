@@ -21,14 +21,14 @@ public class ActivityManager extends BasePlayerManager {
     private final ActivityConditionExecutor conditionExecutor;
 
     static {
-        activityConfigItemMap = new HashMap<>();
-        scheduleActivityConfigMap = new HashMap<>();
+        activityConfigItemMap = new WeakHashMap<>();
+        scheduleActivityConfigMap = new WeakHashMap<>();
     }
 
     public static void loadActivityConfigData() {
         // scan activity type handler and watcher type
-        var activityHandlerTypeMap = new HashMap<ActivityType, ConstructorAccess<?>>();
-        var activityWatcherTypeMap = new HashMap<WatcherTriggerType, ConstructorAccess<?>>();
+        var activityHandlerTypeMap = new WeakHashMap<ActivityType, ConstructorAccess<?>>();
+        var activityWatcherTypeMap = new WeakHashMap<WatcherTriggerType, ConstructorAccess<?>>();
         Grasscutter.reflector
                 .getSubTypesOf(ActivityHandler.class)
                 .forEach(

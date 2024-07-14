@@ -16,7 +16,7 @@ public class TowerLevelRecord {
 
     public TowerLevelRecord(int floorId) {
         this.floorId = floorId;
-        this.passedLevelMap = new HashMap<>();
+        this.passedLevelMap = new WeakHashMap<>();
         this.floorStarRewardProgress = 0;
     }
 

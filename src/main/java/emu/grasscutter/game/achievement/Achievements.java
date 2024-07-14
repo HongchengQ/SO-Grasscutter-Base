@@ -57,7 +57,7 @@ public class Achievements {
     }
 
     private static Map<Integer, Achievement> init() {
-        Map<Integer, Achievement> map = new HashMap<>();
+        Map<Integer, Achievement> map = new WeakHashMap<>();
         GameData.getAchievementDataMap().values().stream()
                 .filter(AchievementData::isUsed)
                 .forEach(

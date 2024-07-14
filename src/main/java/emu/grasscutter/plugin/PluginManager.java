@@ -258,7 +258,7 @@ public final class PluginManager {
      * @param plugin The plugin.
      */
     public void removeListeners(Plugin plugin) {
-        var newMap = new HashMap<Class<? extends Event>, List<EventHandler<? extends Event>>>();
+        var newMap = new WeakHashMap<Class<? extends Event>, List<EventHandler<? extends Event>>>();
 
         // Remove the plugin's listeners.
         this.handlers.forEach(
@@ -284,7 +284,7 @@ public final class PluginManager {
      */
     private void sortListeners() {
         // Create a new map to store the sorted listeners.
-        var newMap = new HashMap<Class<? extends Event>, List<EventHandler<? extends Event>>>();
+        var newMap = new WeakHashMap<Class<? extends Event>, List<EventHandler<? extends Event>>>();
 
         // Sort the listeners by priority.
         this.handlers.forEach(

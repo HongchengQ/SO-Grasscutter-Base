@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public interface StartupArguments {
     /* A map of parameter -> argument handler. */
     Map<String, Function<String, Boolean>> argumentHandlers =
-            new HashMap<>() {
+            new WeakHashMap<>() {
                 {
                     putAll(
                             Map.of(

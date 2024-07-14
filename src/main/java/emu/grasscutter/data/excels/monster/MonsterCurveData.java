@@ -23,7 +23,7 @@ public class MonsterCurveData extends GameResource {
 
     @Override
     public void onLoad() {
-        this.curveInfoMap = new HashMap<>();
+        this.curveInfoMap = new WeakHashMap<>();
         Stream.of(this.curveInfos)
                 .forEach(info -> this.curveInfoMap.put(info.getType(), info.getValue()));
     }

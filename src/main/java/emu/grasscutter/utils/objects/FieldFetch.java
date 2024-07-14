@@ -5,6 +5,7 @@ import emu.grasscutter.server.dispatch.IDispatcher;
 import emu.grasscutter.utils.Utils;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.WeakHashMap;
 
 public interface FieldFetch {
     /**
@@ -16,7 +17,7 @@ public interface FieldFetch {
     default JsonObject fetchFields(String... fields) {
         // Prepare field properties.
         var fieldValues = new JsonObject();
-        var fieldMap = new HashMap<String, Field>();
+        var fieldMap = new WeakHashMap<String, Field>();
         Utils.getAllFields(this.getClass()).forEach(field -> fieldMap.put(field.getName(), field));
 
         // Find the values of all requested fields.

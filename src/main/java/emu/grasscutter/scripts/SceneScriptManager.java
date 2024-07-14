@@ -499,7 +499,7 @@ public class SceneScriptManager {
 
             // otherwise generate the grids
             List<Map<GridPosition, Set<Integer>>> groupPositions = new ArrayList<>();
-            for (int i = 0; i < 6; i++) groupPositions.add(new HashMap<>());
+            for (int i = 0; i < 6; i++) groupPositions.add(new WeakHashMap<>());
 
             var visionOptions = Grasscutter.config.server.game.visionOptions;
             meta.blocks

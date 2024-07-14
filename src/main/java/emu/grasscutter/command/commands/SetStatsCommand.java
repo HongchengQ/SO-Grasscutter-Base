@@ -22,7 +22,7 @@ public final class SetStatsCommand implements CommandHandler {
     private final Map<String, Stat> stats;
 
     public SetStatsCommand() {
-        this.stats = new HashMap<>();
+        this.stats = new WeakHashMap<>();
         for (String key : FightProperty.getShortNames()) {
             this.stats.put(key, new Stat(FightProperty.getPropByShortName(key)));
         }

@@ -15,7 +15,7 @@ public enum ClimateType {
     CLIMATE_DESERT(7);
 
     private static final Int2ObjectMap<ClimateType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, ClimateType> stringMap = new HashMap<>();
+    private static final Map<String, ClimateType> stringMap = new WeakHashMap<>();
 
     static {
         Stream.of(values())

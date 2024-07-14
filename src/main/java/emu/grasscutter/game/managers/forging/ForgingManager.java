@@ -43,7 +43,7 @@ public final class ForgingManager extends BasePlayerManager {
     }
 
     private synchronized Map<Integer, ForgeQueueData> determineCurrentForgeQueueData() {
-        Map<Integer, ForgeQueueData> res = new HashMap<>();
+        Map<Integer, ForgeQueueData> res = new WeakHashMap<>();
         int currentTime = Utils.getCurrentSeconds();
 
         // Create queue information for all active forges.

@@ -181,7 +181,7 @@ public enum ActionReason {
     HomeAvatarEventReward(1100);
 
     private static final Int2ObjectMap<ActionReason> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, ActionReason> stringMap = new HashMap<>();
+    private static final Map<String, ActionReason> stringMap = new WeakHashMap<>();
 
     static {
         Stream.of(values())

@@ -23,8 +23,8 @@ public class MusicGamePlayerData {
                                 .collect(
                                         Collectors.toMap(
                                                 MusicGameBasicData::getId, MusicGamePlayerData.MusicGameRecord::create)))
-                .personalCustomBeatmapRecord(new HashMap<>())
-                .othersCustomBeatmapRecord(new HashMap<>())
+                .personalCustomBeatmapRecord(new WeakHashMap<>())
+                .othersCustomBeatmapRecord(new WeakHashMap<>())
                 .build();
     }
 

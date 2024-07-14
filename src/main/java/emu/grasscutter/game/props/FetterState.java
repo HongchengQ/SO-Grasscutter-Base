@@ -11,7 +11,7 @@ public enum FetterState {
     FINISH(3);
 
     private static final Int2ObjectMap<FetterState> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, FetterState> stringMap = new HashMap<>();
+    private static final Map<String, FetterState> stringMap = new WeakHashMap<>();
 
     static {
         Stream.of(values())

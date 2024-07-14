@@ -59,7 +59,7 @@ public final class TeamManager extends BasePlayerDataManager {
         this.teamResonances = new IntOpenHashSet();
         this.teamResonancesConfig = new IntOpenHashSet();
         this.teamAbilityEmbryos = new HashSet<>();
-        this.trialAvatars = new HashMap<>();
+        this.trialAvatars = new WeakHashMap<>();
         this.trialAvatarTeam = new TeamInfo();
     }
 

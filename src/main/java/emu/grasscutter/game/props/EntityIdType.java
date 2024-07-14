@@ -14,7 +14,7 @@ public enum EntityIdType {
 
     private final int id;
 
-    private static final Map<Integer, EntityType> map = new HashMap<>();
+    private static final Map<Integer, EntityType> map = new WeakHashMap<>();
 
     static {
         map.put(EntityIdType.AVATAR.getId(), EntityType.Avatar);

@@ -260,7 +260,7 @@ public final class Language {
                         .mapToObj(i -> mapLanguageMaps.get(i))
                         .collect(Collectors.toList());
 
-        Map<TextStrings, TextStrings> canonicalTextStrings = new HashMap<>();
+        Map<TextStrings, TextStrings> canonicalTextStrings = new WeakHashMap<>();
         return new Int2ObjectOpenHashMap<TextStrings>(
                 nameHashes
                         .intStream()

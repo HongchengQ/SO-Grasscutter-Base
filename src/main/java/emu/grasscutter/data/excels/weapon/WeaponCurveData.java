@@ -23,7 +23,7 @@ public class WeaponCurveData extends GameResource {
 
     @Override
     public void onLoad() {
-        this.curveInfosMap = new HashMap<>();
+        this.curveInfosMap = new WeakHashMap<>();
         Stream.of(this.curveInfos)
                 .forEach(info -> this.curveInfosMap.put(info.getType(), info.getValue()));
     }

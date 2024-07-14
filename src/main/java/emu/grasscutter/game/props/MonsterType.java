@@ -13,7 +13,7 @@ public enum MonsterType {
     MONSTER_FISH(5);
 
     private static final Int2ObjectMap<MonsterType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, MonsterType> stringMap = new HashMap<>();
+    private static final Map<String, MonsterType> stringMap = new WeakHashMap<>();
 
     static {
         Stream.of(values())

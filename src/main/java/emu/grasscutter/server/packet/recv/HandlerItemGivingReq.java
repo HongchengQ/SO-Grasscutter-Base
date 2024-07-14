@@ -57,7 +57,7 @@ public final class HandlerItemGivingReq extends PacketHandler {
                     }
                     case GIVING_METHOD_VAGUE_GROUP, GIVING_METHOD_GROUP -> {
                         var matchedGroups = new ArrayList<Integer>();
-                        var givenItems = new HashMap<Integer, Integer>();
+                        var givenItems = new WeakHashMap<Integer, Integer>();
 
                         // Resolve potential item IDs.
                         var groupData = GameData.getGivingGroupDataMap();

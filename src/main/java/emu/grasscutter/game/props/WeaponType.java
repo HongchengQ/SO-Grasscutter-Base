@@ -21,7 +21,7 @@ public enum WeaponType {
     WEAPON_POLE(13, 0, 4);
 
     private static final Int2ObjectMap<WeaponType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, WeaponType> stringMap = new HashMap<>();
+    private static final Map<String, WeaponType> stringMap = new WeakHashMap<>();
 
     static {
         Stream.of(values())

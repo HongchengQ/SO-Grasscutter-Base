@@ -52,7 +52,7 @@ public final class TsvUtils {
             value -> (int) Double.parseDouble(value); // Integer::parseInt;
     private static final Function<String, Object> parseLong =
             value -> (long) Double.parseDouble(value); // Long::parseLong;
-    private static final Map<Class<?>, Function<String, Object>> enumTypeParsers = new HashMap<>();
+    private static final Map<Class<?>, Function<String, Object>> enumTypeParsers = new WeakHashMap<>();
     private static final Map<Type, Function<String, Object>> primitiveTypeParsers =
             Map.ofEntries(
                     Map.entry(String.class, parseString),
@@ -67,9 +67,9 @@ public final class TsvUtils {
                     Map.entry(Boolean.class, Boolean::parseBoolean),
                     Map.entry(boolean.class, Boolean::parseBoolean));
     private static final Map<Type, Function<String, Object>> typeParsers =
-            new HashMap<>(primitiveTypeParsers);
+            new WeakHashMap<>(primitiveTypeParsers);
     private static final Map<Class<?>, Map<String, FieldParser>> cachedClassFieldMaps =
-            new HashMap<>();
+            new WeakHashMap<>();
 
     @SuppressWarnings("unchecked")
     private static <T> T parsePrimitive(Class<T> type, String string) {
@@ -110,7 +110,7 @@ public final class TsvUtils {
         }
 
         // Make mappings of (string) names to enum constants
-        val map = new HashMap<String, Object>();
+        val map = new WeakHashMap<String, Object>();
         val enumConstants = enumClass.getEnumConstants();
         for (val constant : enumConstants) map.put(constant.toString(), constant);
 
@@ -166,7 +166,7 @@ public final class TsvUtils {
     }
 
     private static Map<String, FieldParser> makeClassFieldMap(Class<?> classType) {
-        val fieldMap = new HashMap<String, FieldParser>();
+        val fieldMap = new WeakHashMap<String, FieldParser>();
         for (Field field : classType.getDeclaredFields()) {
             field.setAccessible(
                     true); // Yes, we don't bother setting this back. No, it doesn't matter for this project.
@@ -667,7 +667,7 @@ public final class TsvUtils {
         }
 
         private <K, V> Map<K, V> toMap(Class<K> keyClass, Class<V> valueClass, Type valueType) {
-            val map = new HashMap<K, V>();
+            val map = new WeakHashMap<K, V>();
             val keyParser = getTypeParser(keyClass);
             this.children.forEach(
                     (key, tree) -> {

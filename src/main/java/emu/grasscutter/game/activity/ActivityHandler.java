@@ -23,7 +23,7 @@ public abstract class ActivityHandler {
     @Getter ActivityConfigItem activityConfigItem;
 
     @Getter ActivityData activityData;
-    Map<WatcherTriggerType, List<ActivityWatcher>> watchersMap = new HashMap<>();
+    Map<WatcherTriggerType, List<ActivityWatcher>> watchersMap = new WeakHashMap<>();
 
     public abstract void onProtoBuild(
             PlayerActivityData playerActivityData,

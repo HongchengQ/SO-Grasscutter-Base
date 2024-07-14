@@ -68,7 +68,7 @@ public interface Dumpers {
         if (commandMap == null) commandMap = new CommandMap(true);
 
         // Convert all registered commands to an info map.
-        var dump = new HashMap<String, CommandInfo>();
+        var dump = new WeakHashMap<String, CommandInfo>();
         commandMap
                 .getAnnotationsAsList()
                 .forEach(
@@ -118,7 +118,7 @@ public interface Dumpers {
         Language.loadTextMaps();
 
         // Convert all known avatars to an avatar map.
-        var dump = new HashMap<Integer, AvatarInfo>();
+        var dump = new WeakHashMap<Integer, AvatarInfo>();
         GameData.getAvatarDataMap()
                 .forEach(
                         (id, avatar) -> {
@@ -173,7 +173,7 @@ public interface Dumpers {
 
         // Create a new dump with filtered duplicates.
         var names = new ArrayList<String>();
-        var dump = new HashMap<Integer, ItemInfo>();
+        var dump = new WeakHashMap<Integer, ItemInfo>();
         originalDump.forEach(
                 item -> {
                     // Validate the item.
@@ -206,7 +206,7 @@ public interface Dumpers {
         Language.loadTextMaps();
 
         // Convert all known scenes to a scene map.
-        var dump = new HashMap<Integer, SceneInfo>();
+        var dump = new WeakHashMap<Integer, SceneInfo>();
         GameData.getSceneDataMap()
                 .forEach(
                         (id, scene) ->
@@ -237,7 +237,7 @@ public interface Dumpers {
         Language.loadTextMaps();
 
         // Convert all known avatars to an avatar map.
-        var dump = new HashMap<Integer, EntityInfo>();
+        var dump = new WeakHashMap<Integer, EntityInfo>();
         GameData.getMonsterDataMap()
                 .forEach(
                         (id, monster) -> {
@@ -276,7 +276,7 @@ public interface Dumpers {
         Language.loadTextMaps();
 
         // Convert all known quests to a quest map.
-        var dump = new HashMap<Integer, QuestInfo>();
+        var dump = new WeakHashMap<Integer, QuestInfo>();
         GameData.getQuestDataMap()
                 .forEach(
                         (id, quest) -> {
@@ -291,7 +291,7 @@ public interface Dumpers {
                         });
 
         // Convert all known main quests into a quest map.
-        var mainDump = new HashMap<Integer, MainQuestInfo>();
+        var mainDump = new WeakHashMap<Integer, MainQuestInfo>();
         GameData.getMainQuestDataMap()
                 .forEach(
                         (id, mainQuest) -> {
@@ -342,7 +342,7 @@ public interface Dumpers {
         Language.loadTextMaps();
 
         // Convert all known areas to an area map.
-        var dump = new HashMap<Integer, AreaInfo>();
+        var dump = new WeakHashMap<Integer, AreaInfo>();
         GameData.getWorldAreaDataMap()
                 .forEach(
                         (id, area) -> {

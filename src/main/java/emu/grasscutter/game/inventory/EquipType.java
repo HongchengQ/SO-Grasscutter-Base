@@ -15,7 +15,7 @@ public enum EquipType {
     EQUIP_WEAPON(6);
 
     private static final Int2ObjectMap<EquipType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, EquipType> stringMap = new HashMap<>();
+    private static final Map<String, EquipType> stringMap = new WeakHashMap<>();
 
     static {
         Stream.of(values())

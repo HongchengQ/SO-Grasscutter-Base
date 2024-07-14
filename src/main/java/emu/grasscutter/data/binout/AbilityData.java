@@ -28,8 +28,8 @@ public class AbilityData {
     // abilityMixins
     public AbilityMixinData[] abilityMixins;
 
-    public final Map<Integer, AbilityModifierAction> localIdToAction = new HashMap<>();
-    public final Map<Integer, AbilityMixinData> localIdToMixin = new HashMap<>();
+    public final Map<Integer, AbilityModifierAction> localIdToAction = new WeakHashMap<>();
+    public final Map<Integer, AbilityMixinData> localIdToMixin = new WeakHashMap<>();
 
     private boolean _initialized = false;
 
@@ -87,7 +87,7 @@ public class AbilityData {
 
     private void initializeModifiers() {
         if (modifiers == null) {
-            this.modifiers = new HashMap<>();
+            this.modifiers = new WeakHashMap<>();
             return;
         }
 

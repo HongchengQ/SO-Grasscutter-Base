@@ -8,8 +8,8 @@ import lombok.*;
 @Builder
 @Data
 public final class Style {
-    private static final Map<Character, String> unity = new HashMap<>();
-    private static final Map<Character, String> ansi = new HashMap<>();
+    private static final Map<Character, String> unity = new WeakHashMap<>();
+    private static final Map<Character, String> ansi = new WeakHashMap<>();
 
     static {
         // Add the Minecraft color codes to the color map.

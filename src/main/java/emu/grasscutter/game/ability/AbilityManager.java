@@ -26,10 +26,10 @@ import java.util.concurrent.*;
 import lombok.Getter;
 
 public final class AbilityManager extends BasePlayerManager {
-    private static final HashMap<AbilityModifierAction.Type, AbilityActionHandler> actionHandlers =
-            new HashMap<>();
-    private static final HashMap<AbilityMixinData.Type, AbilityMixinHandler> mixinHandlers =
-            new HashMap<>();
+    private static final Map<AbilityModifierAction.Type, AbilityActionHandler> actionHandlers =
+            new WeakHashMap<>();
+    private static final Map<AbilityMixinData.Type, AbilityMixinHandler> mixinHandlers =
+            new WeakHashMap<>();
 
     public static final ExecutorService eventExecutor;
 

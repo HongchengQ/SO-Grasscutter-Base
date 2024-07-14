@@ -28,7 +28,7 @@ public class CookingCompoundManager extends BasePlayerManager {
 
     public static void initialize() {
         defaultUnlockedCompounds = new HashSet<>();
-        compoundGroups = new HashMap<>();
+        compoundGroups = new WeakHashMap<>();
         GameData.getCompoundDataMap()
                 .forEach(
                         (id, compound) -> {
@@ -115,7 +115,7 @@ public class CookingCompoundManager extends BasePlayerManager {
         int now = Utils.getCurrentSeconds();
         // check available queues
         boolean success = false;
-        Map<Integer, GameItem> allRewards = new HashMap<>();
+        Map<Integer, GameItem> allRewards = new WeakHashMap<>();
         for (int id : compoundGroups.get(groupId)) {
             if (!activeCompounds.containsKey(id)) continue;
             int quantity = activeCompounds.get(id).takeCompound(now);

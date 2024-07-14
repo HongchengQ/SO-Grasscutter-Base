@@ -14,7 +14,7 @@ public enum SceneType {
     SCENE_ACTIVITY(6);
 
     private static final Int2ObjectMap<SceneType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, SceneType> stringMap = new HashMap<>();
+    private static final Map<String, SceneType> stringMap = new WeakHashMap<>();
 
     static {
         Stream.of(values())

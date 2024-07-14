@@ -20,11 +20,11 @@ public class GameDepot {
     private static Int2ObjectMap<List<ReliquaryAffixData>> relicAffixDepot =
             new Int2ObjectOpenHashMap<>();
 
-    @Getter @Setter private static Map<String, AvatarConfig> playerAbilities = new HashMap<>();
+    @Getter @Setter private static Map<String, AvatarConfig> playerAbilities = new WeakHashMap<>();
 
     @Getter
-    private static HashMap<SpawnDataEntry.GridBlockId, ArrayList<SpawnDataEntry>> spawnLists =
-            new HashMap<>();
+    private static WeakHashMap<SpawnDataEntry.GridBlockId, ArrayList<SpawnDataEntry>> spawnLists =
+            new WeakHashMap<>();
 
     @Getter @Setter private static BlossomConfig blossomConfig;
 
@@ -74,7 +74,7 @@ public class GameDepot {
     }
 
     public static void addSpawnListById(
-            HashMap<SpawnDataEntry.GridBlockId, ArrayList<SpawnDataEntry>> data) {
+            Map<SpawnDataEntry.GridBlockId, ArrayList<SpawnDataEntry>> data) {
         spawnLists.putAll(data);
     }
 }

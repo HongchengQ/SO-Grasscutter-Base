@@ -28,8 +28,8 @@ public final class DropSystem extends BaseGameSystem {
 
         this.rand = new Random();
         this.dropTable = GameData.getDropTableDataMap();
-        this.chestReward = new HashMap<>();
-        this.monsterDrop = new HashMap<>();
+        this.chestReward = new WeakHashMap<>();
+        this.monsterDrop = new WeakHashMap<>();
 
         try {
             var dataList = DataLoader.loadList("ChestDrop.json", ChestDropData.class);

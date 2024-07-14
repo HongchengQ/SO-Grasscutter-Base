@@ -190,7 +190,7 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
     @Getter private transient final InvokeHandler<AbilityInvokeEntry> clientAbilityInitFinishHandler;
 
     @Getter @Setter private long springLastUsed;
-    private HashMap<String, MapMark> mapMarks;  // Getter makes an empty hashmap - maybe do this elsewhere?
+    private Map<String, MapMark> mapMarks;  // Getter makes an empty hashmap - maybe do this elsewhere?
     @Getter @Setter private int nextResinRefresh;
     @Getter @Setter private int resinBuyCount;
     @Getter @Setter private int lastDailyReset;
@@ -222,7 +222,7 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
         this.rotation = new Position(0, 307, 0);
         this.sceneId = 3;
         this.regionId = 1;
-        this.properties = new HashMap<>();
+        this.properties = new WeakHashMap<>();
         for (PlayerProperty prop : PlayerProperty.values()) {
             if (prop.getId() < 10000) {
                 continue;
@@ -241,18 +241,18 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
         this.unlockedCombines = new HashSet<>();
         this.unlockedFurniture = new HashSet<>();
         this.unlockedFurnitureSuite = new HashSet<>();
-        this.activeCookCompounds = new HashMap<>();
+        this.activeCookCompounds = new WeakHashMap<>();
         this.activeForges = new ArrayList<>();
-        this.unlockedRecipies = new HashMap<>();
-        this.questGlobalVariables = new HashMap<>();
-        this.openStates = new HashMap<>();
-        this.sceneTags = new HashMap<>();
-        this.unlockedSceneAreas = new HashMap<>();
-        this.unlockedScenePoints = new HashMap<>();
+        this.unlockedRecipies = new WeakHashMap<>();
+        this.questGlobalVariables = new WeakHashMap<>();
+        this.openStates = new WeakHashMap<>();
+        this.sceneTags = new WeakHashMap<>();
+        this.unlockedSceneAreas = new WeakHashMap<>();
+        this.unlockedScenePoints = new WeakHashMap<>();
         this.chatEmojiIdList = new ArrayList<>();
         this.playerProgress = new PlayerProgress();
         this.activeQuestTimers = new HashSet<>();
-        this.cityInfoData = new HashMap<>();
+        this.cityInfoData = new WeakHashMap<>();
 
         this.attackResults = new LinkedBlockingQueue<>();
         this.coopRequests = new Int2ObjectOpenHashMap<>();
@@ -269,7 +269,7 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
         this.codex = new PlayerCodex(this);
         this.progressManager = new PlayerProgressManager(this);
         this.shopLimit = new ArrayList<>();
-        this.expeditionInfo = new HashMap<>();
+        this.expeditionInfo = new WeakHashMap<>();
         this.mapMarksManager = new MapMarksManager(this);
         this.staminaManager = new StaminaManager(this);
         this.sotsManager = new SotSManager(this);
@@ -1204,7 +1204,7 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
 
     public Map<String, MapMark> getMapMarks() {
         if (this.mapMarks == null) {
-            this.mapMarks = new HashMap<String, MapMark>();
+            this.mapMarks = new WeakHashMap<String, MapMark>();
         }
         return mapMarks;
     }

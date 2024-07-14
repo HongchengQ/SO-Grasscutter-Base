@@ -488,7 +488,7 @@ public final class ResourceLoader {
             return;
         }
 
-        HashMap<GridBlockId, ArrayList<SpawnDataEntry>> areaSort = new HashMap<>();
+        Map<GridBlockId, ArrayList<SpawnDataEntry>> areaSort = new WeakHashMap<>();
         // key = sceneId,x,z , value = ArrayList<SpawnDataEntry>
         for (SpawnGroupEntry entry : spawnEntryMap) {
             entry

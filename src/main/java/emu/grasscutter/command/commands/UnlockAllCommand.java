@@ -17,7 +17,7 @@ public final class UnlockAllCommand implements CommandHandler {
 
     @Override
     public void execute(Player sender, Player targetPlayer, List<String> args) {
-        Map<Integer, Integer> changed = new HashMap<>();
+        Map<Integer, Integer> changed = new WeakHashMap<>();
 
         for (var state : GameData.getOpenStateList()) {
             // Don't unlock blacklisted open states.

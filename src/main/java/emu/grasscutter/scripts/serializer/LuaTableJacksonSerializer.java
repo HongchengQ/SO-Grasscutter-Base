@@ -170,7 +170,7 @@ public class LuaTableJacksonSerializer extends JsonSerializer<LuaTable> implemen
 
     @Override
     public <T> Map<String, T> toMap(Class<T> type, Object obj) {
-        HashMap<String, T> map = new HashMap<>();
+        Map<String, T> map = new WeakHashMap<>();
         if (!(obj instanceof LuaTable luaTable) || luaTable.isnil()) {
             return map;
         }

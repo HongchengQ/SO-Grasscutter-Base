@@ -18,7 +18,7 @@ public class AnnouncementSystem extends BaseGameSystem {
 
     public AnnouncementSystem(GameServer server) {
         super(server);
-        this.announceConfigItemMap = new HashMap<>();
+        this.announceConfigItemMap = new WeakHashMap<>();
         loadConfig();
     }
 

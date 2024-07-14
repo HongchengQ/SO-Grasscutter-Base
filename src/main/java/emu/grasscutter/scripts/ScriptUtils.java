@@ -3,11 +3,14 @@ package emu.grasscutter.scripts;
 import emu.grasscutter.Grasscutter;
 import emu.grasscutter.game.world.Position;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
+
 import org.luaj.vm2.*;
 
 public interface ScriptUtils {
-    static HashMap<Object, Object> toMap(LuaTable table) {
-        HashMap<Object, Object> map = new HashMap<>();
+    static Map<Object, Object> toMap(LuaTable table) {
+        Map<Object, Object> map = new WeakHashMap<>();
         LuaValue[] rootKeys = table.keys();
         for (LuaValue k : rootKeys) {
             if (table.get(k).istable()) {

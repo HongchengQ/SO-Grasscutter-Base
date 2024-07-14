@@ -9,7 +9,7 @@ public class PlayerCollectionRecords {
 
     private Map<Integer, CollectionRecord> getRecords() {
         if (records == null) {
-            records = new HashMap<>();
+            records = new WeakHashMap<>();
         }
         return records;
     }

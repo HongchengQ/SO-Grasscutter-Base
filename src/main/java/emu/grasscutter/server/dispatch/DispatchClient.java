@@ -23,9 +23,9 @@ import org.slf4j.Logger;
 
 public final class DispatchClient extends WebSocketClient implements IDispatcher {
     @Getter private final Logger logger = Grasscutter.getLogger();
-    @Getter private final Map<Integer, BiConsumer<WebSocket, JsonElement>> handlers = new HashMap<>();
+    @Getter private final Map<Integer, BiConsumer<WebSocket, JsonElement>> handlers = new WeakHashMap<>();
 
-    @Getter private final Map<Integer, List<Consumer<JsonElement>>> callbacks = new HashMap<>();
+    @Getter private final Map<Integer, List<Consumer<JsonElement>>> callbacks = new WeakHashMap<>();
 
     public DispatchClient(URI serverUri) {
         super(serverUri);
