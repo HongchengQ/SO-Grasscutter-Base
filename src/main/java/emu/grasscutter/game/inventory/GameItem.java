@@ -27,6 +27,7 @@ import org.bson.types.ObjectId;
 
 @Entity(value = "items", useDiscriminator = false)
 public class GameItem {
+    // todo 标记这里 可能会引发重大内存问题 内存中的 GameItem 对象数量会非常多 不会被垃圾清理
     @Id private ObjectId id;
     @Indexed private int ownerId;
     @Getter @Setter private int itemId;
