@@ -14,7 +14,7 @@ import lombok.*;
 @Entity
 public class PlayerProgress {
     @Setter @Transient private Player player;
-    private Map<Integer, ItemEntry> itemHistory;
+    private static Map<Integer, ItemEntry> itemHistory;
 
     /*
      * A list of dungeon IDs which have been completed.
