@@ -50,7 +50,7 @@ public abstract class GameEntity {
     private Int2ObjectMap<AbilityModifierController> instancedModifiers =
             new Int2ObjectOpenHashMap<>();
 
-    @Getter private Map<String, Float> globalAbilityValues = new WeakHashMap<>();
+    @Getter private Map<String, Float> globalAbilityValues = new HashMap<>();
 
     public GameEntity(Scene scene) {
         this.scene = scene;

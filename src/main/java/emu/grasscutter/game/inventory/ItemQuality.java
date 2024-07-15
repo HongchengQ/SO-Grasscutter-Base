@@ -15,7 +15,7 @@ public enum ItemQuality {
     QUALITY_ORANGE_SP(105);
 
     private static final Int2ObjectMap<ItemQuality> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, ItemQuality> stringMap = new WeakHashMap<>();
+    private static final Map<String, ItemQuality> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

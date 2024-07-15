@@ -72,7 +72,7 @@ public class TowerManager extends BasePlayerManager {
     public Map<Integer, TowerLevelRecord> getRecordMap() {
         Map<Integer, TowerLevelRecord> recordMap = getTowerData().recordMap;
         if (recordMap == null || recordMap.size() == 0) {
-            recordMap = new WeakHashMap<>();
+            recordMap = new HashMap<>();
             recordMap.put(1001, new TowerLevelRecord(1001));
             getTowerData().recordMap = recordMap;
         }

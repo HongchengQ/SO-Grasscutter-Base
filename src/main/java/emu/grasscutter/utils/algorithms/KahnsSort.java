@@ -19,12 +19,12 @@ public class KahnsSort {
         List<Integer> nodeList;
 
         public Graph(List<Node> nodes, List<Integer> nodeList) {
-            mainList = new WeakHashMap<>();
+            mainList = new HashMap<>();
             this.nodeList = nodeList;
 
             for (int i = 0; i < nodeList.size(); i++) mainList.put(nodeList.get(i), new ArrayList<>());
 
-            degreeList = new WeakHashMap<>();
+            degreeList = new HashMap<>();
             for (int i = 0; i < nodeList.size(); i++) degreeList.put(nodeList.get(i), 0);
 
             for (Node node : nodes) {

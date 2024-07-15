@@ -15,7 +15,7 @@ public enum ItemType {
     ITEM_FURNITURE(6);
 
     private static final Int2ObjectMap<ItemType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, ItemType> stringMap = new WeakHashMap<>();
+    private static final Map<String, ItemType> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

@@ -18,11 +18,11 @@ public class Ability {
 
     @Getter private AbilityManager manager;
 
-    @Getter private Map<String, AbilityModifierController> modifiers = new WeakHashMap<>();
+    @Getter private Map<String, AbilityModifierController> modifiers = new HashMap<>();
     @Getter private Object2FloatMap<String> abilitySpecials = new Object2FloatOpenHashMap<>();
 
     @Getter
-    private static Map<String, Object2FloatMap<String>> abilitySpecialsModified = new WeakHashMap<>();
+    private static Map<String, Object2FloatMap<String>> abilitySpecialsModified = new HashMap<>();
 
     @Getter private int hash;
     @Getter private Set<Integer> avatarSkillStartIds;

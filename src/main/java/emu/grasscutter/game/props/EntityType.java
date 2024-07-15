@@ -77,7 +77,7 @@ public enum EntityType implements IntValueEnum {
     PlaceHolder(99);
 
     private static final Int2ObjectMap<EntityType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, EntityType> stringMap = new WeakHashMap<>();
+    private static final Map<String, EntityType> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

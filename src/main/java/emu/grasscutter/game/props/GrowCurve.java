@@ -72,7 +72,7 @@ public enum GrowCurve {
                 55, 56, 2000, 2001, 2002, 2003, 1010
             };
     private static final Int2ObjectMap<GrowCurve> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, GrowCurve> stringMap = new WeakHashMap<>();
+    private static final Map<String, GrowCurve> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

@@ -20,7 +20,7 @@ public class ChatSystem implements ChatSystemHandler {
 
     // We store the chat history for ongoing sessions in the form
     //    user id -> chat partner id -> [messages]
-    private final Map<Integer, Map<Integer, List<ChatInfo>>> history = new WeakHashMap<>();
+    private final Map<Integer, Map<Integer, List<ChatInfo>>> history = new HashMap<>();
 
     private final GameServer server;
 
@@ -44,7 +44,7 @@ public class ChatSystem implements ChatSystemHandler {
      ********************/
     private void putInHistory(int uid, int partnerId, ChatInfo info) {
         this.history
-                .computeIfAbsent(uid, x -> new WeakHashMap<>())
+                .computeIfAbsent(uid, x -> new HashMap<>())
                 .computeIfAbsent(partnerId, x -> new ArrayList<>())
                 .add(info);
     }
@@ -56,7 +56,7 @@ public class ChatSystem implements ChatSystemHandler {
     public void handlePullPrivateChatReq(Player player, int partnerId) {
         var chatHistory =
                 this.history
-                        .computeIfAbsent(player.getUid(), x -> new WeakHashMap<>())
+                        .computeIfAbsent(player.getUid(), x -> new HashMap<>())
                         .computeIfAbsent(partnerId, x -> new ArrayList<>());
         player.sendPacket(new PacketPullPrivateChatRsp(chatHistory));
     }
@@ -64,7 +64,7 @@ public class ChatSystem implements ChatSystemHandler {
     public void handlePullRecentChatReq(Player player) {
         // If this user has no chat history yet, create it by sending the server welcome messages.
         if (!this.history
-                .computeIfAbsent(player.getUid(), x -> new WeakHashMap<>())
+                .computeIfAbsent(player.getUid(), x -> new HashMap<>())
                 .containsKey(GameConstants.SERVER_CONSOLE_UID)) {
             this.sendServerWelcomeMessages(player);
         }

@@ -46,8 +46,8 @@ public class GameMainQuest {
         this.ownerUid = player.getUid();
         this.questManager = player.getQuestManager();
         this.parentQuestId = parentQuestId;
-        this.childQuests = new WeakHashMap<>();
-        this.talks = new WeakHashMap<>();
+        this.childQuests = new HashMap<>();
+        this.talks = new HashMap<>();
         // official server always has a list of 5 questVars, with default value 0
         this.questVars = new int[] {0, 0, 0, 0, 0};
         this.timeVar =

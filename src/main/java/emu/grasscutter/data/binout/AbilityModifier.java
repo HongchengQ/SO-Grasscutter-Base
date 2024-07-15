@@ -48,7 +48,7 @@ public class AbilityModifier implements Serializable {
     public DynamicFloat elementDurability = DynamicFloat.ZERO;
 
     @ToString
-    public class AbilityModifierAction implements Serializable {
+    public static class AbilityModifierAction implements Serializable {
         public enum Type {
             ActCameraRadialBlur,
             ActCameraShake,

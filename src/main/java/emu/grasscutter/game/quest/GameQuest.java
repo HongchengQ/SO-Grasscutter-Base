@@ -50,8 +50,8 @@ public class GameQuest {
         this.mainQuestId = questData.getMainId();
         this.questData = questData;
         this.state = QuestState.QUEST_STATE_UNSTARTED;
-        this.triggerData = new WeakHashMap<>();
-        this.triggers = new WeakHashMap<>();
+        this.triggerData = new HashMap<>();
+        this.triggers = new HashMap<>();
         this.finishProgressList = new int[questData.getFinishCond().size()];
         this.failProgressList = new int[questData.getFailCond().size()];
         this.finishTime = 0;
@@ -72,7 +72,7 @@ public class GameQuest {
                 var newTrigger = GameData.getTriggerExcelConfigDataMap().get(cond.getParam()[0]);
                 if (newTrigger != null) {
                     if (this.triggerData == null) {
-                        this.triggerData = new WeakHashMap<>();
+                        this.triggerData = new HashMap<>();
                     }
 
                     triggerData.put(newTrigger.getTriggerName(), newTrigger);

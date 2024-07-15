@@ -68,7 +68,7 @@ public enum ElementType implements IntValueEnum {
             "TeamResonance_AllDifferent");
 
     private static final Int2ObjectMap<ElementType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, ElementType> stringMap = new WeakHashMap<>();
+    private static final Map<String, ElementType> stringMap = new HashMap<>();
 
     static {
         // Create bindings for each value.

@@ -25,7 +25,7 @@ public final class ItemGiveRecord {
         var builder = ItemGiveRecord.builder().givingId(givingId).finished(false);
 
         // Create a map.
-        var givenItems = new WeakHashMap<Integer, Integer>();
+        var givenItems = new HashMap<Integer, Integer>();
         if (givingData.getGivingMethod() == GiveMethod.GIVING_METHOD_EXACT) {
             givingData.getExactItems().forEach(item -> givenItems.put(item.getItemId(), 0));
         } else {

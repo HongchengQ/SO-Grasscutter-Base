@@ -112,7 +112,7 @@ public enum FightProperty {
                 55, 56, 2000, 2001, 2002, 2003, 1010
             };
     private static final Int2ObjectMap<FightProperty> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, FightProperty> stringMap = new WeakHashMap<>();
+    private static final Map<String, FightProperty> stringMap = new HashMap<>();
     // This was originally for relic properties so some names might not be applicable for e.g.
     // setstats
     private static final Map<String, FightProperty> shortNameMap =

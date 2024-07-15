@@ -25,7 +25,7 @@ public class StaminaManager extends BasePlayerManager {
     public final static int GlobalCharacterMaximumStamina = PlayerProperty.PROP_MAX_STAMINA.getMax();
     public final static int GlobalVehicleMaxStamina = PlayerProperty.PROP_MAX_STAMINA.getMax();
     // TODO: Skiff state detection?
-    private static final Map<String, Set<MotionState>> MotionStatesCategorized = new WeakHashMap<>() {{
+    private static final Map<String, Set<MotionState>> MotionStatesCategorized = new HashMap<>() {{
         put("CLIMB", Set.of(
             MotionState.MOTION_STATE_CLIMB, // sustained, when not moving no cost no recover
             MotionState.MOTION_STATE_STANDBY_TO_CLIMB // NOT OBSERVED, see MOTION_JUMP_UP_WALL_FOR_STANDBY
@@ -105,37 +105,37 @@ public class StaminaManager extends BasePlayerManager {
         ));
     }};
     private static final Set<Integer> TalentMovements = Set.of(10013, 10413);
-    private static final Map<Integer, Float> ClimbFoodReductionMap = new WeakHashMap<>() {{ // 这里将原本hashmap改为WeakHashMap可能会导致重大问题
+    private static final HashMap<Integer, Float> ClimbFoodReductionMap = new HashMap<>() {{
         // TODO: get real food id
         put(0, 0.8f); // Sample food
     }};
-    private static final Map<Integer, Float> DashFoodReductionMap = new WeakHashMap<>() {{
+    private static final HashMap<Integer, Float> DashFoodReductionMap = new HashMap<>() {{
         // TODO: get real food id
         put(0, 0.8f); // Sample food
     }};
-    private static final Map<Integer, Float> FlyFoodReductionMap = new WeakHashMap<>() {{
+    private static final HashMap<Integer, Float> FlyFoodReductionMap = new HashMap<>() {{
         // TODO: get real food id
         put(0, 0.8f); // Sample food
     }};
-    private static final Map<Integer, Float> SwimFoodReductionMap = new WeakHashMap<>() {{
+    private static final HashMap<Integer, Float> SwimFoodReductionMap = new HashMap<>() {{
         // TODO: get real food id
         put(0, 0.8f); // Sample food
     }};
-    private static final Map<Integer, Float> ClimbTalentReductionMap = new WeakHashMap<>() {{
+    private static final HashMap<Integer, Float> ClimbTalentReductionMap = new HashMap<>() {{
         put(262301, 0.8f);
     }};
-    private static final Map<Integer, Float> FlyTalentReductionMap = new WeakHashMap<>() {{
+    private static final HashMap<Integer, Float> FlyTalentReductionMap = new HashMap<>() {{
         put(212301, 0.8f);
         put(222301, 0.8f);
     }};
-    private static final Map<Integer, Float> SwimTalentReductionMap = new WeakHashMap<>() {{
+    private static final HashMap<Integer, Float> SwimTalentReductionMap = new HashMap<>() {{
         put(242301, 0.8f);
         put(542301, 0.8f);
     }};
 
     private final Logger logger = Grasscutter.getLogger();
-    private final Map<String, BeforeUpdateStaminaListener> beforeUpdateStaminaListeners = new WeakHashMap<>();
-    private final Map<String, AfterUpdateStaminaListener> afterUpdateStaminaListeners = new WeakHashMap<>();
+    private final HashMap<String, BeforeUpdateStaminaListener> beforeUpdateStaminaListeners = new HashMap<>();
+    private final HashMap<String, AfterUpdateStaminaListener> afterUpdateStaminaListeners = new HashMap<>();
     private Position currentCoordinates = new Position(0, 0, 0);
     private Position previousCoordinates = new Position(0, 0, 0);
     private MotionState currentState = MotionState.MOTION_STATE_STANDBY;
@@ -616,7 +616,7 @@ public class StaminaManager extends BasePlayerManager {
 
     // Reduction getter
 
-    private float getTalentCostReductionFactor(Map<Integer, Float> talentReductionMap) {
+    private float getTalentCostReductionFactor(HashMap<Integer, Float> talentReductionMap) {
         // All known talents reductions are not stackable
         float reduction = 1;
         for (EntityAvatar entity : cachedSession.getPlayer().getTeamManager().getActiveTeam()) {
@@ -632,7 +632,7 @@ public class StaminaManager extends BasePlayerManager {
         return reduction;
     }
 
-    private float getFoodCostReductionFactor(Map<Integer, Float> foodReductionMap) {
+    private float getFoodCostReductionFactor(HashMap<Integer, Float> foodReductionMap) {
         // All known food reductions are not stackable
         // TODO: Check consumed food (buff?) and return proper factor
         float reduction = 1;

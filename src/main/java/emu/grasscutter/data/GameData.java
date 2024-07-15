@@ -55,7 +55,7 @@ import lombok.*;
 
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
 public final class GameData {
-    @Getter private static final Map<String, AbilityData> abilityDataMap = new WeakHashMap<>();
+    @Getter private static final Map<String, AbilityData> abilityDataMap = new HashMap<>();
 
     @Getter
     private static final Int2ObjectMap<ScenePointEntry> scenePointEntryMap =
@@ -68,17 +68,17 @@ public final class GameData {
 
     @Getter private static final Int2ObjectMap<String> abilityHashes = new Int2ObjectOpenHashMap<>();
 
-    @Getter private static final Map<String, List<TalentData>> talents = new WeakHashMap<>();
-    @Getter private static final Map<String, ConfigEntityAvatar> avatarConfigData = new WeakHashMap<>();
-    @Getter private static final Map<String, ConfigEntityGadget> gadgetConfigData = new WeakHashMap<>();
-    @Getter private static final Map<String, ConfigEntityMonster> monsterConfigData = new WeakHashMap<>();
+    @Getter private static final Map<String, List<TalentData>> talents = new HashMap<>();
+    @Getter private static final Map<String, ConfigEntityAvatar> avatarConfigData = new HashMap<>();
+    @Getter private static final Map<String, ConfigEntityGadget> gadgetConfigData = new HashMap<>();
+    @Getter private static final Map<String, ConfigEntityMonster> monsterConfigData = new HashMap<>();
 
-    @Getter private static final Map<String, OpenConfigEntry> openConfigEntries = new WeakHashMap<>();
+    @Getter private static final Map<String, OpenConfigEntry> openConfigEntries = new HashMap<>();
 
     private static final Int2ObjectMap<MainQuestData> mainQuestData = new Int2ObjectOpenHashMap<>();
     private static final Int2ObjectMap<QuestEncryptionKey> questsKeys = new Int2ObjectOpenHashMap<>();
     private static final Int2ObjectMap<SceneNpcBornData> npcBornData = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, AbilityEmbryoEntry> abilityEmbryos = new WeakHashMap<>();
+    private static final Map<String, AbilityEmbryoEntry> abilityEmbryos = new HashMap<>();
 
     // ExcelConfigs
     @Getter
@@ -530,14 +530,14 @@ public final class GameData {
     // Cache
     @Getter private static final IntList scenePointIdList = new IntArrayList();
     @Getter private static final List<OpenStateData> openStateList = new ArrayList<>();
-    @Getter private static final Map<Integer, List<Integer>> scenePointsPerScene = new WeakHashMap<>();
-    @Getter private static final Map<String, ScriptSceneData> scriptSceneDataMap = new WeakHashMap<>();
+    @Getter private static final Map<Integer, List<Integer>> scenePointsPerScene = new HashMap<>();
+    @Getter private static final Map<String, ScriptSceneData> scriptSceneDataMap = new HashMap<>();
 
     @Getter
-    private static final Map<String, GuideTriggerData> guideTriggerDataStringMap = new WeakHashMap<>();
+    private static final Map<String, GuideTriggerData> guideTriggerDataStringMap = new HashMap<>();
 
     @Getter
-    private static final Map<String, ConfigLevelEntity> configLevelEntityDataMap = new WeakHashMap<>();
+    private static final Map<String, ConfigLevelEntity> configLevelEntityDataMap = new HashMap<>();
 
     @Getter
     private static final Int2ObjectMap<IntSet> proudSkillGroupLevels = new Int2ObjectOpenHashMap<>();
@@ -549,9 +549,9 @@ public final class GameData {
 
     @Getter
     private static final Map<String, List<QuestData>> beginCondQuestMap =
-            new WeakHashMap<>(); // cache filled by QuestData
+            new HashMap<>(); // cache filled by QuestData
 
-    @Getter private static final Map<Integer, Integer> questTalkMap = new WeakHashMap<>();
+    @Getter private static final Map<Integer, Integer> questTalkMap = new HashMap<>();
 
     @Getter
     private static final Int2ObjectMap<TrialAvatarCustomData> trialAvatarCustomData =
@@ -559,18 +559,18 @@ public final class GameData {
 
     @Getter
     private static final Map<Integer, TrialAvatarActivityCustomData> trialAvatarActivityCustomData =
-            new WeakHashMap<>();
+            new HashMap<>();
 
     @Getter
     private static final Map<Integer, TrialAvatarActivityDataData> trialAvatarActivityDataCustomData =
-            new WeakHashMap<>();
+            new HashMap<>();
 
     @Getter
     private static final Int2IntMap trialAvatarIndexIdTrialActivityDataDataMap =
             new Int2IntOpenHashMap();
 
-    private static Map<Integer, List<Integer>> fetters = new WeakHashMap<>();
-    private static Map<Integer, List<ShopGoodsData>> shopGoods = new WeakHashMap<>();
+    private static Map<Integer, List<Integer>> fetters = new HashMap<>();
+    private static Map<Integer, List<ShopGoodsData>> shopGoods = new HashMap<>();
 
     // Getters with different names that stay for now
     public static Int2ObjectMap<MainQuestData> getMainQuestDataMap() {

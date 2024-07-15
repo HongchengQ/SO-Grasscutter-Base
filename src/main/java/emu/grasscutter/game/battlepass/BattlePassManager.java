@@ -97,7 +97,7 @@ public class BattlePassManager extends BasePlayerDataManager {
     }
 
     public Map<Integer, BattlePassMission> getMissions() {
-        if (this.missions == null) this.missions = new WeakHashMap<>();
+        if (this.missions == null) this.missions = new HashMap<>();
         return this.missions;
     }
 
@@ -116,7 +116,7 @@ public class BattlePassManager extends BasePlayerDataManager {
     }
 
     public Map<Integer, BattlePassReward> getTakenRewards() {
-        if (this.takenRewards == null) this.takenRewards = new WeakHashMap<>();
+        if (this.takenRewards == null) this.takenRewards = new HashMap<>();
         return this.takenRewards;
     }
 

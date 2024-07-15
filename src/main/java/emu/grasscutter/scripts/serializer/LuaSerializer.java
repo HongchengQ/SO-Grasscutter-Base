@@ -35,7 +35,7 @@ public class LuaSerializer implements Serializer {
     }
 
     private <T> Map<String, T> serializeMap(Class<T> type, LuaTable table) {
-        Map<String, T> map = new WeakHashMap<>();
+        Map<String, T> map = new HashMap<>();
 
         if (table == null) {
             return map;
@@ -208,7 +208,7 @@ public class LuaSerializer implements Serializer {
                 Optional.ofNullable(methodAccessCache.get(type)).orElse(MethodAccess.get(type));
         methodAccessCache.putIfAbsent(type, methodAccess);
 
-        var fieldMetaMap = new WeakHashMap<String, FieldMeta>();
+        var fieldMetaMap = new HashMap<String, FieldMeta>();
         var methodNameSet = new HashSet<>(Arrays.stream(methodAccess.getMethodNames()).toList());
 
         Arrays.stream(type.getDeclaredFields())

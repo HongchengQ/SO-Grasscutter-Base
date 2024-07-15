@@ -306,7 +306,7 @@ public enum WatcherTriggerType {
     TRIGGER_CRYSTAL_LINK_TOTAL_MAX_SCORE_REACH(1139);
 
     private static final Int2ObjectMap<WatcherTriggerType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, WatcherTriggerType> stringMap = new WeakHashMap<>();
+    private static final Map<String, WatcherTriggerType> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

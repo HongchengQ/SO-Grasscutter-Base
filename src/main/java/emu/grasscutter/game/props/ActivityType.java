@@ -21,7 +21,7 @@ public enum ActivityType {
 
     private final int value;
     private static final Int2ObjectMap<ActivityType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, ActivityType> stringMap = new WeakHashMap<>();
+    private static final Map<String, ActivityType> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

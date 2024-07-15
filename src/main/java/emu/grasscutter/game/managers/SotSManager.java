@@ -217,7 +217,7 @@ public class SotSManager extends BasePlayerManager {
     }
 
     public CityInfoData getCityInfo(int cityId) {
-        if (player.getCityInfoData() == null) player.setCityInfoData(new WeakHashMap<>());
+        if (player.getCityInfoData() == null) player.setCityInfoData(new HashMap<>());
         var cityInfo = player.getCityInfoData().get(cityId);
         if (cityInfo == null) {
             cityInfo = new CityInfoData(cityId);
@@ -227,7 +227,7 @@ public class SotSManager extends BasePlayerManager {
     }
 
     public void addCityInfo(CityInfoData cityInfoData) {
-        if (player.getCityInfoData() == null) player.setCityInfoData(new WeakHashMap<>());
+        if (player.getCityInfoData() == null) player.setCityInfoData(new HashMap<>());
 
         player.getCityInfoData().put(cityInfoData.getCityId(), cityInfoData);
     }

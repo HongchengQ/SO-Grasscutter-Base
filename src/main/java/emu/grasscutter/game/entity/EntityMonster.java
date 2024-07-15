@@ -71,7 +71,7 @@ public class EntityMonster extends GameEntity {
         this.bornPos = this.getPosition().clone();
         this.level = level;
         this.playerOnBattle = new ArrayList<>();
-        this.summonTagMap = new WeakHashMap<>();
+        this.summonTagMap = new HashMap<>();
         this.summonedTag = 0;
         this.ownerEntityId = 0;
 

@@ -24,7 +24,7 @@ public enum TalkExec {
     TALK_EXEC_SAVE_TALK_ID(14);
 
     private static final Int2ObjectMap<TalkExec> execMap = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, TalkExec> execStringMap = new WeakHashMap<>();
+    private static final Map<String, TalkExec> execStringMap = new HashMap<>();
 
     static {
         Stream.of(TalkExec.values())

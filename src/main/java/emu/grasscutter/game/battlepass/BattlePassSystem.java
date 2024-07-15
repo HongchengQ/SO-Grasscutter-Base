@@ -17,7 +17,7 @@ public class BattlePassSystem extends BaseGameSystem {
     public BattlePassSystem(GameServer server) {
         super(server);
 
-        this.cachedTriggers = new WeakHashMap<>();
+        this.cachedTriggers = new HashMap<>();
 
         for (BattlePassMissionData missionData : GameData.getBattlePassMissionDataMap().values()) {
             if (missionData.isValidRefreshType()) {

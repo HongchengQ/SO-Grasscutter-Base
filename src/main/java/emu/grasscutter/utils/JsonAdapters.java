@@ -160,7 +160,7 @@ public interface JsonAdapters {
             if (!enumClass.isEnum()) return null;
 
             // Make mappings of (string) names to enum constants
-            val map = new WeakHashMap<String, T>();
+            val map = new HashMap<String, T>();
             val enumConstants = enumClass.getEnumConstants();
             for (val constant : enumConstants) map.put(constant.toString(), constant);
 

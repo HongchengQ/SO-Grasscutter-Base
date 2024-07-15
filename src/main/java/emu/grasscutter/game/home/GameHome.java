@@ -87,7 +87,7 @@ public class GameHome {
                 .sceneMap(new ConcurrentHashMap<>())
                 .mainHouseMap(new ConcurrentHashMap<>())
                 .unlockedHomeBgmList(new HashSet<>())
-                .finishedTalkIdMap(new WeakHashMap<>())
+                .finishedTalkIdMap(new HashMap<>())
                 .finishedRewardEventIdSet(new HashSet<>())
                 .build();
     }
@@ -265,7 +265,7 @@ public class GameHome {
 
     public Set<Integer> onTalkedWithAvatar(int avatarId, int talkId) {
         if (this.finishedTalkIdMap == null) {
-            this.finishedTalkIdMap = new WeakHashMap<>();
+            this.finishedTalkIdMap = new HashMap<>();
         }
 
         this.finishedTalkIdMap.computeIfAbsent(avatarId, HashSet::new).add(talkId);
@@ -276,7 +276,7 @@ public class GameHome {
 
     public List<HomeAvatarTalkFinishInfo> toAvatarTalkFinishInfoProto() {
         if (this.finishedTalkIdMap == null) {
-            this.finishedTalkIdMap = new WeakHashMap<>();
+            this.finishedTalkIdMap = new HashMap<>();
         }
 
         return this.finishedTalkIdMap.entrySet().stream()

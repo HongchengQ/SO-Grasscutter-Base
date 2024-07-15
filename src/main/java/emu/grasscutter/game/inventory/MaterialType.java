@@ -49,7 +49,7 @@ public enum MaterialType {
     MATERIAL_DESHRET_MANUAL(46);
 
     private static final Int2ObjectMap<MaterialType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, MaterialType> stringMap = new WeakHashMap<>();
+    private static final Map<String, MaterialType> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

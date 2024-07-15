@@ -13,7 +13,7 @@ public enum RefreshType {
 
     private final int value;
     private static final Int2ObjectMap<RefreshType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, RefreshType> stringMap = new WeakHashMap<>();
+    private static final Map<String, RefreshType> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

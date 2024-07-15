@@ -23,7 +23,7 @@ public final class SetPropCommand implements CommandHandler {
     private final Map<String, Prop> props;
 
     public SetPropCommand() {
-        this.props = new WeakHashMap<>();
+        this.props = new HashMap<>();
         // Full PlayerProperty enum that won't be advertised but can be used by devs
         for (PlayerProperty prop : PlayerProperty.values()) {
             String name = prop.toString().substring(5); // PROP_EXP -> EXP

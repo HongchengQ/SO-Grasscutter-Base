@@ -8,9 +8,9 @@ import org.reflections.Reflections;
 
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 public final class TaskMap {
-    private final Map<String, TaskHandler> tasks = new WeakHashMap<>();
-    private final Map<String, Task> annotations = new WeakHashMap<>();
-    private final Map<String, TaskHandler> afterReset = new WeakHashMap<>();
+    private final Map<String, TaskHandler> tasks = new HashMap<>();
+    private final Map<String, Task> annotations = new HashMap<>();
+    private final Map<String, TaskHandler> afterReset = new HashMap<>();
     private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
     public TaskMap() {

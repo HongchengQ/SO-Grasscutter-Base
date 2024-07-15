@@ -39,7 +39,7 @@ public enum EnterReason {
     HideAndSeek(69);
 
     private static final Int2ObjectMap<EnterReason> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, EnterReason> stringMap = new WeakHashMap<>();
+    private static final Map<String, EnterReason> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

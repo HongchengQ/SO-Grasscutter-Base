@@ -97,7 +97,7 @@ public enum QuestCond implements QuestTrigger {
     }
 
     private static final Int2ObjectMap<QuestCond> contentMap = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, QuestCond> contentStringMap = new WeakHashMap<>();
+    private static final Map<String, QuestCond> contentStringMap = new HashMap<>();
 
     static {
         Stream.of(values())

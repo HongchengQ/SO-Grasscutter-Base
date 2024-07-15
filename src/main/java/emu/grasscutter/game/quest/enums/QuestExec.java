@@ -90,7 +90,7 @@ public enum QuestExec implements QuestTrigger {
     }
 
     private static final Int2ObjectMap<QuestExec> contentMap = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, QuestExec> contentStringMap = new WeakHashMap<>();
+    private static final Map<String, QuestExec> contentStringMap = new HashMap<>();
 
     static {
         Stream.of(values())

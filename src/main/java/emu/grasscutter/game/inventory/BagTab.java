@@ -19,7 +19,7 @@ public enum BagTab {
     TAB_HOMEWORLD(9);
 
     private static final Int2ObjectMap<BagTab> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, BagTab> stringMap = new WeakHashMap<>();
+    private static final Map<String, BagTab> stringMap = new HashMap<>();
 
     static {
         Stream.of(BagTab.values())

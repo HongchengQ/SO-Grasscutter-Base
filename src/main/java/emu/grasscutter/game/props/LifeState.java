@@ -11,7 +11,7 @@ public enum LifeState {
     LIFE_REVIVE(3);
 
     private static final Int2ObjectMap<LifeState> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, LifeState> stringMap = new WeakHashMap<>();
+    private static final Map<String, LifeState> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())

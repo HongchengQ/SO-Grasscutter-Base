@@ -19,7 +19,7 @@ public class WorldDataSystem extends BaseGameSystem {
 
     public WorldDataSystem(GameServer server) {
         super(server);
-        this.chestInteractHandlerMap = new WeakHashMap<>();
+        this.chestInteractHandlerMap = new HashMap<>();
         this.sceneInvestigationGroupMap = new ConcurrentHashMap<>();
 
         loadChestConfig();

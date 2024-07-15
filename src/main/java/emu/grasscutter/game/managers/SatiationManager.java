@@ -18,7 +18,7 @@ public class SatiationManager extends BasePlayerManager {
     public synchronized boolean addSatiation(Avatar avatar, float satiationIncrease, int itemId) {
 
         // Satiation is max 10000 but can go over in the case of overeating
-        Map<Integer, Long> propMap = new WeakHashMap<>();
+        Map<Integer, Long> propMap = new HashMap<>();
         int satiation = Math.round(satiationIncrease * 100);
         float totalSatiation = ((satiationIncrease * 100) + avatar.getSatiation());
 

@@ -12,7 +12,7 @@ public class DeforestationManager extends BasePlayerManager {
     static final int RECORD_EXPIRED_SECONDS = 60 * 5; // 5 min
     static final int RECORD_MAX_TIMES = 3; // max number of wood
     static final int RECORD_MAX_TIMES_OTHER_HIT_TREE = 10; // if hit 10 times other trees, reset wood
-    private static final Map<Integer, Integer> ColliderTypeToWoodItemID = new WeakHashMap<>();
+    private static final HashMap<Integer, Integer> ColliderTypeToWoodItemID = new HashMap<>();
 
     static {
         /* define wood types which reflected to item id*/

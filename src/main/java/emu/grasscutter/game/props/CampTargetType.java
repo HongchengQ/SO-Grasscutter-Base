@@ -17,7 +17,7 @@ public enum CampTargetType implements IntValueEnum {
 
     private final int value;
     private static final Int2ObjectMap<CampTargetType> map = new Int2ObjectOpenHashMap<>();
-    private static final Map<String, CampTargetType> stringMap = new WeakHashMap<>();
+    private static final Map<String, CampTargetType> stringMap = new HashMap<>();
 
     static {
         Stream.of(values())
