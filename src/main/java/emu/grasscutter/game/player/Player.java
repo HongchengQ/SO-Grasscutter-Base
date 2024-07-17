@@ -207,6 +207,7 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
     @Deprecated
     @SuppressWarnings({"rawtypes", "unchecked"}) // Morphia only!
     public Player() {
+        final Position ZERO = new Position(0, 0, 0);
         this.inventory = new Inventory(this);
         this.avatars = new AvatarStorage(this);
         this.friendsList = new FriendsList(this);
@@ -218,7 +219,7 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
         this.buffManager = new PlayerBuffManager(this);
         this.position = new Position(GameConstants.START_POSITION);
         this.prevPos = new Position();
-        this.prevPosForHome = Position.ZERO;
+        this.prevPosForHome = ZERO;
         this.rotation = new Position(0, 307, 0);
         this.sceneId = 3;
         this.regionId = 1;
@@ -1420,10 +1421,12 @@ public class Player implements DatabaseObject<Player>, PlayerHook, FieldFetch {
             this.applyStartingSceneTags();
         }
 
+        final Position ZERO = new Position(0, 0, 0);
+
         if (GameHome.HOME_SCENE_IDS.contains(this.getSceneId())) {
             this.setSceneId(this.prevScene <= 0 ? 3 : this.prevScene); // if the player in home, make the player go back.
             var pos = this.getPrevPosForHome();
-            if (pos.equals(Position.ZERO)) {
+            if (pos.equals(ZERO)) {
                 pos = ScriptLoader.getSceneMeta(this.getSceneId()).config.born_pos;
             }
             this.position.set(pos);

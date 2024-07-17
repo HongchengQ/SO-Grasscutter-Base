@@ -15,8 +15,8 @@ import lombok.experimental.Accessors;
 public class Position implements Serializable {
     private static final long serialVersionUID = -2001232313615923575L;
 
-    public static final Position ZERO = new Position(0, 0, 0);
-    public static final Position IDENTITY = new Position(0, 0);
+//    public static final Position ZERO = new Position(0, 0, 0);
+//    public static final Position IDENTITY = new Position(0, 0);
 
     @SerializedName(
             value = "x",

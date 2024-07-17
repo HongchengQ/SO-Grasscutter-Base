@@ -107,7 +107,9 @@ public class CommandHelpers {
             target.setZ(Float.parseFloat(inputZ));
         }
 
-        if (!offset.equal3d(Position.ZERO)) {
+        final Position ZERO = new Position(0, 0, 0);
+
+        if (!offset.equal3d(ZERO)) {
             return calculateOffset(target, curRot, offset);
         } else {
             return target;
