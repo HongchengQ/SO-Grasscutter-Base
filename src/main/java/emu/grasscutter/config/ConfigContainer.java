@@ -229,8 +229,8 @@ public class ConfigContainer {
 
         public HotfixData HotfixData = new HotfixData();
         public static class HotfixData{
-            public String ResourceUrl = "https://autopatchcn.DMCA.com/client_game_res/4.0_live";    // autopatch
-            public String DataUrl = "https://autopatchcn.DMCA.com/client_design_data/4.0_live"; // autopatch
+            public String ResourceUrl = "https://autopatchcn.yuanshen.com/client_game_res/4.0_live";    // autopatch
+            public String DataUrl = "https://autopatchcn.yuanshen.com/client_design_data/4.0_live"; // autopatch
             public String Branch = "4.0_live";  // 通用
 
             public Android Android = new Android();
